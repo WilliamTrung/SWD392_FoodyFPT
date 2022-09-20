@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace ApplicationCore.Models
+{
+    public partial class Shipper
+    {
+        public Shipper()
+        {
+            Orders = new HashSet<Order>();
+            Shifts = new HashSet<Shift>();
+        }
+
+        public int Id { get; set; }
+        public int UserId { get; set; }
+        public long Salary { get; set; }
+        public bool? Flag { get; set; }
+
+        public virtual User User { get; set; } = null!;
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Shift> Shifts { get; set; }
+    }
+}
