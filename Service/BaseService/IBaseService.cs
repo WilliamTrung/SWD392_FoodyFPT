@@ -15,7 +15,7 @@ namespace Service.Service
         Task<TDto> UpdateAsync(TDto dto);
         Task<bool> DeleteAsync(int id);
         Task<TDto> GetByIdAsync(int id);
-        Task<IEnumerable<TDto>> GetAllAsync();
+        Task<IEnumerable<TDto>> GetAsync(Expression<Func<TEntity, bool>>? filter = null);
 
     }
 }

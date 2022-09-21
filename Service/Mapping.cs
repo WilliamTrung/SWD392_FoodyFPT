@@ -12,19 +12,19 @@ namespace Service
     {
         public Mapping()
         {
-            CreateMap<DTO.Category, Category>().ReverseMap();
-            CreateMap<DTO.Location, Location>().ReverseMap();
-            CreateMap<DTO.Menu, Menu>().ReverseMap();
-            CreateMap<DTO.MenuDetail, MenuDetail>().ReverseMap();
-            CreateMap<DTO.Order, Order>().ReverseMap();
-            CreateMap<DTO.OrderDetail, OrderDetail>().ReverseMap();
-            CreateMap<DTO.Product, Product>().ReverseMap();
-            CreateMap<DTO.Role, Role>().ReverseMap();
-            CreateMap<DTO.Shift, Shift>().ReverseMap();
-            CreateMap<DTO.Shipper, Shipper>().ReverseMap();
-            CreateMap<DTO.Slot, Slot>().ReverseMap();
-            CreateMap<DTO.Store, Store>().ReverseMap();
-            CreateMap<DTO.User, User>().ReverseMap();
+            CreateMap<Category, DTO.Category>().ReverseMap();
+            CreateMap<Location, DTO.Location>().ReverseMap();
+            CreateMap<Menu, DTO.Menu>().ReverseMap();
+            CreateMap<MenuDetail, DTO.MenuDetail>().ReverseMap();
+            CreateMap<Order, DTO.Order>().ReverseMap();
+            CreateMap<OrderDetail, DTO.OrderDetail>().ReverseMap();
+            CreateMap<Product, DTO.Product>().ReverseMap();
+            CreateMap<Role, DTO.Role>().ReverseMap();
+            CreateMap<Shift, DTO.Shift>().ReverseMap();
+            CreateMap<Shipper, DTO.Shipper>().ReverseMap();
+            CreateMap<Slot, DTO.Slot>().ReverseMap();
+            CreateMap<Store, DTO.Store>().ReverseMap();
+            CreateMap<User, DTO.User>().ReverseMap();
         }
     }
 }
