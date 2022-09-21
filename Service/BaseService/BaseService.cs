@@ -69,18 +69,18 @@ namespace Service.Service
                     list_entities_query = list_entities_query.Where(filter);
                 }
                 var list_entities_enumerable = list_entities_query.AsEnumerable();
-                IEnumerable<TDto> list_dto = new List<TDto>();
+                List<TDto> list_dto = new List<TDto>();
                 foreach (var entity in list_entities_enumerable)
                 {
                     var dto = _mapper.Map<TDto>(entity);
-                    list_dto.Append(dto);
+                    list_dto.Add(dto);
                 }
                 return list_dto;
-            } else
+            } 
+            else
             {
                 return null;
             }
-            
             //throw new NotImplementedException();
         }
 
