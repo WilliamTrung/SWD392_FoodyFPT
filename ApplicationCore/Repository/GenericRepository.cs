@@ -19,12 +19,30 @@ namespace ApplicationCore.Repository
         }
         public void Add(TEntity entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (entity == null) throw new ArgumentNullException("entity");
+                _context.Add(entity);
+            }
+            catch (Exception)
+            {
+                throw new Exception("GenericRepository Add Failed");
+            }
+            //throw new NotImplementedException();
         }
 
         public void Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (entity == null) throw new ArgumentNullException("entity");
+                _context.Remove(entity);
+            }
+            catch (Exception)
+            {
+                throw new Exception("GenericRepository Delete Failed");
+            }
+            //throw new NotImplementedException();
         }
 
         public Task<IEnumerable<TEntity>> FindAllAsync()
@@ -32,24 +50,51 @@ namespace ApplicationCore.Repository
             throw new NotImplementedException();
         }
 
-        public Task<TEntity> FindByIdAsync(int id)
+        public async Task<TEntity> FindByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+#pragma warning disable CS0472 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                if (id == null) throw new ArgumentNullException("Id");
+                else
+                {
+                    var entity = await _context.FindAsync<TEntity>(id);
+#pragma warning disable CS8603 // Possible null reference return.
+                    return entity;
+                }
+            }
+            catch (Exception)
+            {
+                throw new Exception("GenericRepository Delete Failed");
+            }
+            //throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            var list = await _context.Set<TEntity>().ToListAsync();
+            return list;
         }
 
         public Task<int> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return _context.SaveChangesAsync();
+            //throw new NotImplementedException();
         }
 
         public void Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            try
+            {
+                if (entity == null) throw new ArgumentNullException("entity");
+                _context.Update(entity);
+            }
+            catch (Exception)
+            {
+                throw new Exception("GenericRepository Update Failed");
+            }
         }
     }
 }
