@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Services;
 using Service.DTO;
 using ApplicationCore.Context;
+using System;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FoodyAPI.Controllers
@@ -39,14 +40,24 @@ namespace FoodyAPI.Controllers
             }
             return Ok(dto);
         }
-
+        // GET api/<ProductController>/name
+        [HttpGet("name/{name}")]
+        public async Task<IActionResult> Get(string name)
+        {
+            var list = await _productService.GetAsync(p => p.Name.ToUpper().Contains(name.ToUpper()));
+            if (list == null)
+            {
+                return NotFound();
+            }
+            return Ok(list);
+        }
         // POST api/<ProductController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] Product _product)
+        public async Task<IActionResult> PostAsync([FromBody]Product product)
         {
             try
             {
-                var created = await _productService.CreateAsync(_product);
+                var created = await _productService.CreateAsync(product);
                 return Ok(created);
             }
             catch
@@ -56,12 +67,12 @@ namespace FoodyAPI.Controllers
         }
 
         // PUT api/<ProductController>/5
-        [HttpPut("{_product}")]
-        public async Task<IActionResult> Put([FromBody] Product _product)
+        [HttpPut("{product}")]
+        public async Task<IActionResult> PutAsync([FromQuery]Product product)
         {
             try
             {
-                var updated = await _productService.UpdateAsync(_product);
+                var updated = await _productService.UpdateAsync(product);
                 return Ok(updated);
             }
             catch
@@ -71,9 +82,9 @@ namespace FoodyAPI.Controllers
         }
         // DELETE api/<ProductController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromBody] int _id)
+        public async Task<IActionResult> Delete(int id)
         {
-            bool result = await _productService.DeleteAsync(_id);
+            bool result = await _productService.DeleteAsync(id);
             return Ok(result);
         }
     }
