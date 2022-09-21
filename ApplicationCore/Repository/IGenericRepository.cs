@@ -14,7 +14,6 @@ namespace ApplicationCore.Repository
         void Add(TEntity entity);
         void Delete(TEntity entity);
         void Update(TEntity entity);
-
-        Task<int> Count();
+        Task<int> SaveChangesAsync();
     }
 }

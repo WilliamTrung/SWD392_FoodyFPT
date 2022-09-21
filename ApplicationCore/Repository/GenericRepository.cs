@@ -22,11 +22,6 @@ namespace ApplicationCore.Repository
             throw new NotImplementedException();
         }
 
-        public Task<int> Count()
-        {
-            throw new NotImplementedException();
-        }
-
         public void Delete(TEntity entity)
         {
             throw new NotImplementedException();
@@ -43,6 +38,11 @@ namespace ApplicationCore.Repository
         }
 
         public Task<IEnumerable<TEntity>> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> SaveChangesAsync()
         {
             throw new NotImplementedException();
         }
