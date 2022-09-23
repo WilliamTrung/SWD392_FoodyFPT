@@ -13,7 +13,7 @@ namespace ApplicationCore.Models
 
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        public bool? Flag { get; set; }
+        public bool Status { get; set; }
 
         public virtual ICollection<MenuDetail> MenuDetails { get; set; }
         public virtual ICollection<Slot> Slots { get; set; }

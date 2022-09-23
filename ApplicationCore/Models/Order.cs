@@ -16,7 +16,7 @@ namespace ApplicationCore.Models
         public int LocationId { get; set; }
         public int SlotId { get; set; }
         public DateTime Date { get; set; }
-        public bool? Flag { get; set; }
+        public bool Status { get; set; }
 
         public virtual Location Location { get; set; } = null!;
         public virtual Shipper Shipper { get; set; } = null!;

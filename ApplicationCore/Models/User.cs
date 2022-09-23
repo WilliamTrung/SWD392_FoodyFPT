@@ -17,7 +17,6 @@ namespace ApplicationCore.Models
         public string Email { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public string Image { get; set; } = null!;
-        public bool? Flag { get; set; }
 
         public virtual Role Role { get; set; } = null!;
         public virtual ICollection<Order> Orders { get; set; }

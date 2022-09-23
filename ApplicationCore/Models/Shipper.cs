@@ -14,7 +14,6 @@ namespace ApplicationCore.Models
         public int Id { get; set; }
         public int UserId { get; set; }
         public long Salary { get; set; }
-        public bool? Flag { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<Order> Orders { get; set; }

@@ -15,7 +15,6 @@ namespace ApplicationCore.Models
         public string Address { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public string? Email { get; set; }
-        public bool? Flag { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

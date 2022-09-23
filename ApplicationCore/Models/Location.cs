@@ -13,7 +13,6 @@ namespace ApplicationCore.Models
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public int Floor { get; set; }
-        public bool? Flag { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
     }

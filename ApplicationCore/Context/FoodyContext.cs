@@ -8,12 +8,12 @@ namespace ApplicationCore.Context
 {
     public partial class FoodyContext : DbContext
     {
-        //for testing
         private string _connectionString;
         public FoodyContext(string connectionString)
         {
             _connectionString = connectionString;
         }
+
         public FoodyContext()
         {
         }
@@ -66,8 +66,6 @@ namespace ApplicationCore.Context
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Flag).HasColumnName("flag");
-
                 entity.Property(e => e.Floor).HasColumnName("floor");
 
                 entity.Property(e => e.Name).HasColumnName("name");
@@ -77,15 +75,13 @@ namespace ApplicationCore.Context
             {
                 entity.ToTable("Menu");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.Flag).HasColumnName("flag");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
                     .HasColumnName("name");
+
+                entity.Property(e => e.Status).HasColumnName("status");
             });
 
             modelBuilder.Entity<MenuDetail>(entity =>
@@ -96,7 +92,7 @@ namespace ApplicationCore.Context
 
                 entity.Property(e => e.MenuId).HasColumnName("menu_id");
 
-                entity.Property(e => e.Flag).HasColumnName("flag");
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.HasOne(d => d.Menu)
                     .WithMany(p => p.MenuDetails)
@@ -113,21 +109,19 @@ namespace ApplicationCore.Context
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Date)
                     .HasColumnType("date")
                     .HasColumnName("date");
-
-                entity.Property(e => e.Flag).HasColumnName("flag");
 
                 entity.Property(e => e.LocationId).HasColumnName("location_id");
 
                 entity.Property(e => e.ShipperId).HasColumnName("shipper_id");
 
                 entity.Property(e => e.SlotId).HasColumnName("slot_id");
+
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
@@ -187,13 +181,9 @@ namespace ApplicationCore.Context
             {
                 entity.ToTable("Product");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CategoryId).HasColumnName("category_id");
-
-                entity.Property(e => e.Flag).HasColumnName("flag");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
@@ -204,6 +194,8 @@ namespace ApplicationCore.Context
                     .HasColumnName("price");
 
                 entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.StoreId).HasColumnName("store_id");
 
@@ -224,9 +216,7 @@ namespace ApplicationCore.Context
             {
                 entity.ToTable("Role");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
@@ -243,7 +233,7 @@ namespace ApplicationCore.Context
 
                 entity.Property(e => e.ShipperId).HasColumnName("shipper_id");
 
-                entity.Property(e => e.Flag).HasColumnName("flag");
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.HasOne(d => d.Shipper)
                     .WithMany(p => p.Shifts)
@@ -262,11 +252,7 @@ namespace ApplicationCore.Context
             {
                 entity.ToTable("Shipper");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
-
-                entity.Property(e => e.Flag).HasColumnName("flag");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Salary).HasColumnName("salary");
 
@@ -283,13 +269,9 @@ namespace ApplicationCore.Context
             {
                 entity.ToTable("Slot");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.End).HasColumnName("end");
-
-                entity.Property(e => e.Flag).HasColumnName("flag");
 
                 entity.Property(e => e.MenuId).HasColumnName("menu_id");
 
@@ -306,9 +288,7 @@ namespace ApplicationCore.Context
             {
                 entity.ToTable("Store");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Address).HasColumnName("address");
 
@@ -316,8 +296,6 @@ namespace ApplicationCore.Context
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("email");
-
-                entity.Property(e => e.Flag).HasColumnName("flag");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
@@ -333,16 +311,12 @@ namespace ApplicationCore.Context
             {
                 entity.ToTable("User");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("email");
-
-                entity.Property(e => e.Flag).HasColumnName("flag");
 
                 entity.Property(e => e.Image)
                     .IsUnicode(false)
