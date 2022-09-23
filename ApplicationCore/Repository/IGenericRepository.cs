@@ -9,11 +9,12 @@ namespace ApplicationCore.Repository
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        //Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> FindByIdAsync(int id);
         void Add(TEntity entity);
         void Delete(TEntity entity);
         void Update(TEntity entity);
         Task<int> SaveChangesAsync();
+        Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>>? filter = null);
     }
 }
