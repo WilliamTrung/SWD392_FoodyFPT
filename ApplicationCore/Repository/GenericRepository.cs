@@ -108,8 +108,13 @@ namespace ApplicationCore.Repository
                     list_entities_query = list_entities_query.Where(filter);
                 }
                 var list_entities_enumerable = list_entities_query.AsEnumerable();
-                
-                return list_entities;
+
+                //Modify TrungNT 24-09-2022 Start
+                //previous:
+                //return list_entities;
+
+                return list_entities_enumerable;
+                //Modify TrungNT 24-09-2022 End
             }
             else
             {
