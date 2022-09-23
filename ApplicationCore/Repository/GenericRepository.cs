@@ -96,5 +96,25 @@ namespace ApplicationCore.Repository
                 throw new Exception("GenericRepository Update Failed");
             }
         }
+
+        public async Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>>? filter = null)
+        {
+            var list_entities = await _context.Set<TEntity>().ToListAsync();
+            if (list_entities != null && list_entities.Count() > 0)
+            {
+                var list_entities_query = list_entities.AsQueryable();
+                if (filter != null)
+                {
+                    list_entities_query = list_entities_query.Where(filter);
+                }
+                var list_entities_enumerable = list_entities_query.AsEnumerable();
+                
+                return list_entities;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
