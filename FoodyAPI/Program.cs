@@ -15,8 +15,11 @@ builder.Services.AddMvc();
 using (var config = builder.Configuration)
 {
     string connectionString = config.GetConnectionString("DefaultConnection");
-   builder.Services.AddDbContext<FoodyContext>(options => options.UseSqlServer(connectionString));
+    builder.Services.AddDbContext<FoodyContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString)) ;
     builder.Services.AddAutoMapper(typeof(Mapping));
+    builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 }
 //builder.Services.AddScoped<IProductService, ProductService>();
 var app = builder.Build();
