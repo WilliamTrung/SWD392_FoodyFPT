@@ -60,17 +60,11 @@ namespace Service.Service
 
         public async Task<IEnumerable<TDto>> GetAsync(Expression<Func<TEntity, bool>>? filter = null)
         {
-            var list_entities = await _repository.GetAllAsync();
+            var list_entities = await _repository.GetList(filter);
             if(list_entities != null && list_entities.Count() > 0)
             {
-                var list_entities_query = list_entities.AsQueryable();
-                if (filter != null)
-                {
-                    list_entities_query = list_entities_query.Where(filter);
-                }
-                var list_entities_enumerable = list_entities_query.AsEnumerable();
                 List<TDto> list_dto = new List<TDto>();
-                foreach (var entity in list_entities_enumerable)
+                foreach (var entity in list_entities)
                 {
                     var dto = _mapper.Map<TDto>(entity);
                     list_dto.Add(dto);
