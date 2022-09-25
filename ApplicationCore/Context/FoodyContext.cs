@@ -8,7 +8,7 @@ namespace ApplicationCore.Context
 {
     public partial class FoodyContext : DbContext
     {
-        private string _connectionString;
+        private string? _connectionString;
         public FoodyContext(string connectionString)
         {
             _connectionString = connectionString;
@@ -43,7 +43,10 @@ namespace ApplicationCore.Context
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 //optionsBuilder.UseSqlServer("Server=tcp:foodyfpt.database.windows.net,1433;Initial Catalog=dbfoodyfpt;Persist Security Info=False;User ID=trungntse151134fpt;Password=Loliizabezt.1211;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                optionsBuilder.UseSqlServer(_connectionString);
+                if (_connectionString != null)
+                {
+                    optionsBuilder.UseSqlServer(_connectionString);
+                }
             }
         }
 
@@ -69,6 +72,8 @@ namespace ApplicationCore.Context
                 entity.Property(e => e.Floor).HasColumnName("floor");
 
                 entity.Property(e => e.Name).HasColumnName("name");
+
+                entity.Property(e => e.Status).HasColumnName("status");
             });
 
             modelBuilder.Entity<Menu>(entity =>
@@ -256,6 +261,8 @@ namespace ApplicationCore.Context
 
                 entity.Property(e => e.Salary).HasColumnName("salary");
 
+                entity.Property(e => e.Status).HasColumnName("status");
+
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.User)
@@ -276,6 +283,8 @@ namespace ApplicationCore.Context
                 entity.Property(e => e.MenuId).HasColumnName("menu_id");
 
                 entity.Property(e => e.Start).HasColumnName("start");
+
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.HasOne(d => d.Menu)
                     .WithMany(p => p.Slots)
@@ -305,6 +314,8 @@ namespace ApplicationCore.Context
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("phone");
+
+                entity.Property(e => e.Status).HasColumnName("status");
             });
 
             modelBuilder.Entity<User>(entity =>
