@@ -1,9 +1,7 @@
-﻿using AutoMapper;
+﻿using ApplicationCore.Context;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Service.Services;
 using Service.DTO;
-using ApplicationCore.Context;
-using System;
 using Service.Services.IService;
 using Service.Services.Service;
 
@@ -13,18 +11,18 @@ namespace FoodyAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class LocationController : ControllerBase
     {
-        // GET: api/<CategoryController>
-        ICategoryService _categoryService;
-        public CategoryController(FoodyContext context, IMapper mapper)
+        private ILocationService _locationService;
+        // GET: api/<LocationController>
+        public LocationController(FoodyContext context, IMapper mapper)
         {
-            _categoryService = new CategoryService(mapper, context);
+            _locationService = new LocationService(mapper, context);
         }
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var list = await _categoryService.GetAsync();
+            var list = await _locationService.GetAsync();
             if (list == null)
             {
                 return NotFound();
@@ -32,11 +30,11 @@ namespace FoodyAPI.Controllers
             return Ok(list);
         }
 
-        // GET api/<CategoryController>/5
+        // GET api/<LocationController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var dto = await _categoryService.GetByIdAsync(id);
+            var dto = await _locationService.GetByIdAsync(id);
             if (dto == null)
             {
                 return NotFound();
@@ -47,21 +45,21 @@ namespace FoodyAPI.Controllers
         [HttpGet("name/{name}")]
         public async Task<IActionResult> Get(string name)
         {
-            var list = await _categoryService.GetAsync(p => p.Name.ToUpper().Contains(name.ToUpper()));
+            var list = await _locationService.GetAsync(p => p.Name.ToUpper().Contains(name.ToUpper()));
             if (list == null)
             {
                 return NotFound();
             }
             return Ok(list);
         }
-
+        // POST api/<LocationController>
         // POST api/<CategoryController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] Category category)
+        public async Task<IActionResult> PostAsync([FromBody] Location location)
         {
             try
             {
-                var created = await _categoryService.CreateAsync(category);
+                var created = await _locationService.CreateAsync(location);
                 return Ok(created);
             }
             catch
@@ -71,12 +69,12 @@ namespace FoodyAPI.Controllers
         }
 
         // PUT api/<CategoryController>/5
-        [HttpPut("{category}")]
-        public async Task<IActionResult> PutAsync([FromQuery] Category category)
+        [HttpPut("{location}")]
+        public async Task<IActionResult> PutAsync([FromQuery] Location location)
         {
             try
             {
-                var updated = await _categoryService.UpdateAsync(category);
+                var updated = await _locationService.UpdateAsync(location);
                 return Ok(updated);
             }
             catch
@@ -85,11 +83,11 @@ namespace FoodyAPI.Controllers
             }
         }
 
-        // DELETE api/<CategoryController>/5
+        // DELETE api/<LocationController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            bool result = await _categoryService.DeleteAsync(id);
+            bool result = await _locationService.DeleteAsync(id);
             return Ok(result);
         }
     }

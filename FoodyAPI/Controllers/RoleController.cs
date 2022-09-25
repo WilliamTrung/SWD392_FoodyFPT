@@ -4,6 +4,8 @@ using Service.Services;
 using Service.DTO;
 using ApplicationCore.Context;
 using System;
+using Service.Services.IService;
+using Service.Services.Service;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
