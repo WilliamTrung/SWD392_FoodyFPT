@@ -6,6 +6,7 @@ using ApplicationCore.Context;
 using System;
 using Service.Services.IService;
 using Service.Services.Service;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,12 +16,13 @@ namespace FoodyAPI.Controllers
     [ApiController]
     public class StoreController : ControllerBase
     {
-        // GET: api/<StoreController>
+        
         IStoreService _storeService;
         public StoreController(FoodyContext context, IMapper mapper)
         {
             _storeService = new StoreService(mapper,context);
         }
+        // GET: api/<StoreController>
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
