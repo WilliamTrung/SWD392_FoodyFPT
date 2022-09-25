@@ -7,7 +7,7 @@ string connection = "Server=tcp:foodyfpt.database.windows.net,1433;Initial Catal
 FoodyContext _context = new FoodyContext(connection);
 IGenericRepository<Product> _repo = new GenericRepository<Product>(_context);
 
-var list = _repo.GetAllAsync();
+var list = _repo.GetList();
 foreach(var item in list.Result.ToList())
 {
     Console.WriteLine(item);
