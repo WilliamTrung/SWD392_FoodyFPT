@@ -25,7 +25,7 @@ namespace Service.Service
             _repository = new GenericRepository<TEntity>(_context);
         }
 
-        public async Task<TDto> CreateAsync(TDto dto)
+        public async virtual Task<TDto> CreateAsync(TDto dto)
         {
             //throw new NotImplementedException();
             if (dto != null)
@@ -44,7 +44,7 @@ namespace Service.Service
             return dto;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async virtual Task<bool> DeleteAsync(int id)
         {
             //throw new NotImplementedException();
             var entity = await _repository.FindByIdAsync(id);
@@ -58,7 +58,7 @@ namespace Service.Service
             }
         }
 
-        public async Task<IEnumerable<TDto>> GetAsync(Expression<Func<TEntity, bool>>? filter = null)
+        public async virtual Task<IEnumerable<TDto>> GetAsync(Expression<Func<TEntity, bool>>? filter = null)
         {
             var list_entities = await _repository.GetList(filter);
             if(list_entities != null && list_entities.Count() > 0)
@@ -78,7 +78,7 @@ namespace Service.Service
             //throw new NotImplementedException();
         }
 
-        public async Task<TDto> GetByIdAsync(int id)
+        public async virtual Task<TDto> GetByIdAsync(int id)
         {
             //throw new NotImplementedException();
             var entity = await _repository.FindByIdAsync(id);
@@ -90,7 +90,7 @@ namespace Service.Service
             return null;
         }
 
-        public async Task<TDto> UpdateAsync(TDto dto)
+        public async virtual Task<TDto> UpdateAsync(TDto dto)
         {
             //throw new NotImplementedException();
             if(dto != null)
