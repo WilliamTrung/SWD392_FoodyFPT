@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Services
+namespace Service.Services.IService
 {
-    public interface ICategoryService : IBaseService<DTO.Category, Category>
+    public interface IRoleService : IBaseService<DTO.Role, Role>
     {
-
     }
 }

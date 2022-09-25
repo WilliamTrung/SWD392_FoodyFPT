@@ -3,13 +3,14 @@ using ApplicationCore.Models;
 using ApplicationCore.Repository;
 using AutoMapper;
 using Service.Service;
+using Service.Services.IService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Services
+namespace Service.Services.Service
 {
     public class StoreService : BaseService<DTO.Store, Store>, IStoreService
     {

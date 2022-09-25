@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Services
+namespace Service.Services.IService
 {
-    public interface IRoleService : IBaseService<DTO.Role, Role>
+    public interface IStoreService : IBaseService<DTO.Store, Store>
     {
     }
 }
