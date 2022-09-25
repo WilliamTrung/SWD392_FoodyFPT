@@ -60,6 +60,10 @@ namespace ApplicationCore.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("name");
 
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit")
+                        .HasColumnName("status");
+
                     b.HasKey("Id");
 
                     b.ToTable("Location", (string)null);
@@ -279,6 +283,10 @@ namespace ApplicationCore.Migrations
                         .HasColumnType("bigint")
                         .HasColumnName("salary");
 
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit")
+                        .HasColumnName("status");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int")
                         .HasColumnName("user_id");
@@ -310,6 +318,10 @@ namespace ApplicationCore.Migrations
                     b.Property<TimeSpan>("Start")
                         .HasColumnType("time")
                         .HasColumnName("start");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit")
+                        .HasColumnName("status");
 
                     b.HasKey("Id");
 
@@ -350,6 +362,10 @@ namespace ApplicationCore.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)")
                         .HasColumnName("phone");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit")
+                        .HasColumnName("status");
 
                     b.HasKey("Id");
 
