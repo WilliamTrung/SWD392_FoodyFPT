@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Context;
 using ApplicationCore.Repository;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -93,7 +94,7 @@ namespace Service.Service
             return null;
         }
 
-        public async virtual Task<TDto> UpdateAsync(TDto dto)
+        public async virtual Task<TDto> UpdateAsync(int id, TDto dto)
         {
             //throw new NotImplementedException();
             if(dto != null)
@@ -101,10 +102,21 @@ namespace Service.Service
                 var entity = _mapper.Map<TEntity>(dto);
                 try
                 {
-                    _repository.Update(entity);
-                    await _repository.SaveChangesAsync();
                     //Modify TrungNT start 26-09-2022
-                    dto = _mapper.Map<TDto>(entity);
+                    var found = await _context.FindAsync<TEntity>(id);
+                    if (found != null)
+                    {
+                        _context.Entry(found).CurrentValues.SetValues(entity);
+                        //_repository.Update(entity);
+                        await _repository.SaveChangesAsync();
+                        //Modify TrungNT start 26-09-2022
+                        dto = _mapper.Map<TDto>(entity);
+                        //Modify TrungNT end 26-09-2022
+                    } else
+                    {
+                        dto = null;
+                    }
+
                     //Modify TrungNT end 26-09-2022
                 }
                 catch
