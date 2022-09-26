@@ -13,7 +13,7 @@ namespace ApplicationCore.Repository
         Task<TEntity> FindByIdAsync(int id);
         void Add(TEntity entity);
         void Delete(TEntity entity);
-        void Update(TEntity entity);
+        void Update(int id, TEntity entity);
         Task<int> SaveChangesAsync();
         Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>>? filter = null);
     }
