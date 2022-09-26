@@ -55,12 +55,23 @@ namespace FoodyAPI.Controllers
         // POST api/<LocationController>
         // POST api/<CategoryController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] Menu menu)
+        public async Task<IActionResult> PostAsync(string name)
         {
             try
             {
-                var created = await _menuService.CreateAsync(menu);
-                return Ok(created);
+                var menu = new Menu()
+                {
+                    Name = name
+                };
+                var create = await _menuService.CreateAsync(menu);
+                if (create != null)
+                {
+                    return Ok(create);
+                }
+                else
+                {
+                    return BadRequest(StatusCodes.Status500InternalServerError);
+                }
             }
             catch
             {
@@ -70,12 +81,24 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<CategoryController>/5
         [HttpPut("{location}")]
-        public async Task<IActionResult> PutAsync([FromQuery] Menu menu)
+        public async Task<IActionResult> PutAsync(int id, string name)
         {
             try
             {
-                var updated = await _menuService.UpdateAsync(0, menu);
-                return Ok(updated);
+                var menu = new Menu()
+                {
+                    Id = id,
+                    Name = name
+                };
+                var updated = await _menuService.UpdateAsync(id, menu);
+                if (updated != null)
+                {
+                    return Ok(updated);
+                }
+                else
+                {
+                    return BadRequest(StatusCodes.Status500InternalServerError);
+                }
             }
             catch
             {

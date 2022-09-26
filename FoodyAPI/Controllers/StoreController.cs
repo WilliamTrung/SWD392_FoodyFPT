@@ -60,12 +60,26 @@ namespace FoodyAPI.Controllers
 
         // POST api/<StoreController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] Store store)
+        public async Task<IActionResult> PostAsync(string name, string address, string phone, string email)
         {
             try
             {
-                var created = await _storeService.CreateAsync(store);
-                return Ok(created);
+                var store = new Store()
+                {
+                    Name = name,
+                    Address = address,
+                    Phone = phone,
+                    Email = email
+                };
+                var create = await _storeService.CreateAsync(store);
+                if (create != null)
+                {
+                    return Ok(create);
+                }
+                else
+                {
+                    return BadRequest(StatusCodes.Status500InternalServerError);
+                }
             }
             catch
             {
@@ -75,12 +89,27 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<StoreController>/5
         [HttpPut("{store}")]
-        public async Task<IActionResult> PutAsync([FromQuery] Store store)
+        public async Task<IActionResult> PutAsync(int id, string name, string address, string phone, string email)
         {
             try
             {
-                var updated = await _storeService.UpdateAsync(0, store);
-                return Ok(updated);
+                var store = new Store()
+                {
+                    Id = id,
+                    Name = name,
+                    Address = address,
+                    Phone = phone,
+                    Email = email
+                };
+                var updated = await _storeService.UpdateAsync(id, store);
+                if (updated != null)
+                {
+                    return Ok(updated);
+                }
+                else
+                {
+                    return BadRequest(StatusCodes.Status500InternalServerError);
+                }
             }
             catch
             {

@@ -55,12 +55,27 @@ namespace FoodyAPI.Controllers
         }
         // POST api/<ProductController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]Product product)
+        public async Task<IActionResult> PostAsync(int categoryId, int storeId, string name, decimal price, int quantity)
         {
             try
             {
-                var created = await _productService.CreateAsync(product);
-                return Ok(created);
+                var product = new Product()
+                {
+                    CategoryId = categoryId,
+                    StoreId = storeId,
+                    Name = name,
+                    Price = price,
+                    Quantity = quantity
+                };
+                var create = await _productService.CreateAsync(product);
+                if (create != null)
+                {
+                    return Ok(create);
+                }
+                else
+                {
+                    return BadRequest(StatusCodes.Status500InternalServerError);
+                }
             }
             catch
             {
@@ -70,12 +85,28 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<ProductController>/5
         [HttpPut("{product}")]
-        public async Task<IActionResult> PutAsync([FromQuery]Product product)
+        public async Task<IActionResult> PutAsync(int id, int categoryId, int storeId, string name, decimal price, int quantity)
         {
             try
             {
-                var updated = await _productService.UpdateAsync(0, product);
-                return Ok(updated);
+                var product = new Product()
+                {
+                    Id = id,
+                    CategoryId = categoryId,
+                    StoreId = storeId,
+                    Name = name,
+                    Price = price,
+                    Quantity = quantity
+                };
+                var updated = await _productService.UpdateAsync(id, product);
+                if (updated != null)
+                {
+                    return Ok(updated);
+                }
+                else
+                {
+                    return BadRequest(StatusCodes.Status500InternalServerError);
+                }
             }
             catch
             {

@@ -57,12 +57,24 @@ namespace FoodyAPI.Controllers
 
         // POST api/<RoleController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody] Role role)
+        public async Task<IActionResult> PostAsync(string name)
         {
             try
             {
-                var created = await _roleService.CreateAsync(role);
-                return Ok(created);
+                var role = new Role()
+                {
+                    Id = id,
+                    Name = name
+                };
+                var create = await _roleService.CreateAsync(role);
+                if (create != null)
+                {
+                    return Ok(create);
+                }
+                else
+                {
+                    return BadRequest(StatusCodes.Status500InternalServerError);
+                }
             }
             catch
             {
@@ -72,12 +84,24 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<RoleController>/5
         [HttpPut("{role}")]
-        public async Task<IActionResult> PutAsync([FromQuery] Role role)
+        public async Task<IActionResult> PutAsync(int id, string name)
         {
             try
             {
-                var updated = await _roleService.UpdateAsync(0, role);
-                return Ok(updated);
+                var role = new Role()
+                {
+                    Id = id,
+                    Name = name
+                };
+                var updated = await _roleService.UpdateAsync(id, role);
+                if (updated != null)
+                {
+                    return Ok(updated);
+                }
+                else
+                {
+                    return BadRequest(StatusCodes.Status500InternalServerError);
+                }
             }
             catch
             {
