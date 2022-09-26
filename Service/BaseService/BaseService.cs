@@ -35,6 +35,9 @@ namespace Service.Service
                 {
                     _repository.Add(entity);
                     await _repository.SaveChangesAsync();
+                    //Modify TrungNT start 26-09-2022
+                    dto = _mapper.Map<TDto>(entity);
+                    //Modify TrungNT end 26-09-2022
                 }
                 catch
                 {
@@ -100,6 +103,9 @@ namespace Service.Service
                 {
                     _repository.Update(entity);
                     await _repository.SaveChangesAsync();
+                    //Modify TrungNT start 26-09-2022
+                    dto = _mapper.Map<TDto>(entity);
+                    //Modify TrungNT end 26-09-2022
                 }
                 catch
                 {
