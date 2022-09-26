@@ -83,13 +83,18 @@ namespace ApplicationCore.Repository
             //throw new NotImplementedException();
         }
 
-        public void Update(TEntity entity)
+        public void Update(int id, TEntity entity)
         {
             //throw new NotImplementedException();
             try
             {
                 if (entity == null) throw new ArgumentNullException("entity");
-                _context.Update(entity);
+                var found = _context.FindAsync<TEntity>(id);
+#pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
+                if (found != null)
+                {
+                    _context.Entry(found).CurrentValues.SetValues(entity);
+                }
             }
             catch (Exception)
             {
