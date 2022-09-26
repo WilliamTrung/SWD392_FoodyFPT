@@ -63,7 +63,6 @@ namespace FoodyAPI.Controllers
             {
                 var role = new Role()
                 {
-                    Id = id,
                     Name = name
                 };
                 var create = await _roleService.CreateAsync(role);
