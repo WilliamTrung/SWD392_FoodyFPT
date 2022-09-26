@@ -76,7 +76,7 @@ namespace FoodyAPI.Controllers
         {
             try
             {
-                var updated = await _roleService.UpdateAsync(role);
+                var updated = await _roleService.UpdateAsync(0, role);
                 return Ok(updated);
             }
             catch

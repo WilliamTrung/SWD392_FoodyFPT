@@ -74,7 +74,7 @@ namespace FoodyAPI.Controllers
         {
             try
             {
-                var updated = await _locationService.UpdateAsync(location);
+                var updated = await _locationService.UpdateAsync(0, location);
                 return Ok(updated);
             }
             catch

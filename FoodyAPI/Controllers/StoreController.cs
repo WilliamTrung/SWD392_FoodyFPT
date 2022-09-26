@@ -79,7 +79,7 @@ namespace FoodyAPI.Controllers
         {
             try
             {
-                var updated = await _storeService.UpdateAsync(store);
+                var updated = await _storeService.UpdateAsync(0, store);
                 return Ok(updated);
             }
             catch
