@@ -103,7 +103,7 @@ namespace Service.Service
                 try
                 {
                     //Modify TrungNT start 26-09-2022
-                    var found = await _context.FindAsync<TEntity>(id);
+                    /*var found = await _context.FindAsync<TEntity>(id);
                     if (found != null)
                     {
                         _context.Entry(found).CurrentValues.SetValues(entity);
@@ -115,9 +115,14 @@ namespace Service.Service
                     } else
                     {
                         dto = null;
-                    }
-
+                    }*/
                     //Modify TrungNT end 26-09-2022
+
+                    //Modify AnhTN start 26 - 09 - 2022
+                    _repository.Update(id, entity);
+                    await _repository.SaveChangesAsync();
+                    dto = _mapper.Map<TDto>(entity);
+                    //Modify AnhTN end 26-09-2022
                 }
                 catch
                 {
