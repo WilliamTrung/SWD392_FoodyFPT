@@ -36,6 +36,7 @@ namespace FoodyAPI.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> Upload(List<IFormFile> files)
         {
+            /*
             if(files.Count == 0)
             {
                 return BadRequest();
@@ -48,6 +49,8 @@ namespace FoodyAPI.Controllers
                 }
                 return Ok(check);
             }
+            */
+            return Ok("On maintenance!");
         }
     }
 }

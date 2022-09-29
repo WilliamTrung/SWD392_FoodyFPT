@@ -88,7 +88,7 @@ namespace FoodyAPI.Controllers
         }
 
         // PUT api/<StoreController>/5
-        [HttpPut("{store}")]
+        [HttpPut]
         public async Task<IActionResult> PutAsync(int id, string name, string address, string phone, string email)
         {
             try
