@@ -9,7 +9,7 @@ using Service.Services.Service;
 
 namespace FoodyAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/menu")]
     [ApiController]
     public class MenuController : ControllerBase
     {

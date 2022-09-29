@@ -8,7 +8,7 @@ using Service.Services.Service;
 
 namespace FoodyAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -96,6 +96,11 @@ namespace FoodyAPI.Controllers
             {
                 return BadRequest(StatusCodes.Status500InternalServerError);
             }
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(int userId)
+        {
+            return Ok("Not yet implemented!");
         }
     }
 }

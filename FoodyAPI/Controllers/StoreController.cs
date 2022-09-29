@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FoodyAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/store")]
     [ApiController]
     public class StoreController : ControllerBase
     {

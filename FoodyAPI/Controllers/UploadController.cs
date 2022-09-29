@@ -9,7 +9,7 @@ using Service.Helper;
 
 namespace FoodyAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/upload")]
     [ApiController]
     public class UploadController : Controller
     {
