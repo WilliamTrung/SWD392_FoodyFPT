@@ -90,7 +90,8 @@ namespace FoodyAPI.Controllers
                 {
                     Id = id,
                     Name = name,
-                    Floor = floor
+                    Floor = floor,
+                    Status = true
                 };
                 var updated = await _locationService.UpdateAsync(id, location);
                 if (updated != null)
@@ -115,12 +116,12 @@ namespace FoodyAPI.Controllers
             try
             {
                 var location = await _locationService.GetByIdAsync(id);
-                if(location.Status == true)
-                {
-                    location.Status = false;
-                } else
+                if(location.Status == null || location.Status == false)
                 {
                     location.Status = true;
+                } else
+                {
+                    location.Status = false;
                 }
                 var updated = await _locationService.UpdateAsync(id, location);
                 return Ok(updated);

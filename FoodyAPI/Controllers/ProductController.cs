@@ -96,7 +96,8 @@ namespace FoodyAPI.Controllers
                     StoreId = storeId,
                     Name = name,
                     Price = price,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    Status = true
                 };
                 var updated = await _productService.UpdateAsync(id, product);
                 if (updated != null)
@@ -107,6 +108,30 @@ namespace FoodyAPI.Controllers
                 {
                     return BadRequest(StatusCodes.Status500InternalServerError);
                 }
+            }
+            catch
+            {
+                return BadRequest(StatusCodes.Status500InternalServerError);
+            }
+        }
+        //PUT disable/enable 
+        //change entity's status
+        [HttpPut("enable-disable/{id}")]
+        public async Task<IActionResult> SwitchStatusAsync(int id)
+        {
+            try
+            {
+                var product = await _productService.GetByIdAsync(id);
+                if (product.Status == false)
+                {
+                    product.Status = true;
+                }
+                else
+                {
+                    product.Status = false;
+                }
+                var updated = await _productService.UpdateAsync(id, product);
+                return Ok(updated);
             }
             catch
             {

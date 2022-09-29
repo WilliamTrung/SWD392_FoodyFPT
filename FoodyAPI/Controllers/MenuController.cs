@@ -88,7 +88,8 @@ namespace FoodyAPI.Controllers
                 var menu = new Menu()
                 {
                     Id = id,
-                    Name = name
+                    Name = name,
+                    Status = true
                 };
                 var updated = await _menuService.UpdateAsync(id, menu);
                 if (updated != null)
@@ -105,7 +106,30 @@ namespace FoodyAPI.Controllers
                 return BadRequest(StatusCodes.Status500InternalServerError);
             }
         }
-
+        //PUT disable/enable 
+        //change entity's status
+        [HttpPut("enable-disable/{id}")]
+        public async Task<IActionResult> SwitchStatusAsync(int id)
+        {
+            try
+            {
+                var menu = await _menuService.GetByIdAsync(id);
+                if (menu.Status == false)
+                {
+                    menu.Status = true;
+                }
+                else
+                {
+                    menu.Status = false;
+                }
+                var updated = await _menuService.UpdateAsync(id, menu);
+                return Ok(updated);
+            }
+            catch
+            {
+                return BadRequest(StatusCodes.Status500InternalServerError);
+            }
+        }
         // DELETE api/<LocationController>/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
