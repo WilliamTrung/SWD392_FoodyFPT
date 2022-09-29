@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 namespace Service.DTO
 {
     public partial class Slot
@@ -16,7 +15,7 @@ namespace Service.DTO
         public int MenuId { get; set; }
         public TimeSpan Start { get; set; }
         public TimeSpan End { get; set; }
-        public bool? Flag { get; set; }
+        public bool? Status { get; set; }
 
         public virtual Menu Menu { get; set; } = null!;
         public virtual ICollection<Order> Orders { get; set; }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 namespace Service.DTO
 {
     public partial class Menu
@@ -14,7 +13,7 @@ namespace Service.DTO
 
         public int Id { get; set; }
         public string Name { get; set; } = null!;
-        public bool? Flag { get; set; }
+        public bool Status { get; set; }
 
         public virtual ICollection<MenuDetail> MenuDetails { get; set; }
         public virtual ICollection<Slot> Slots { get; set; }

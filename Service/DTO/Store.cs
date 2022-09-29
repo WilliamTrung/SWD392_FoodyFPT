@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 namespace Service.DTO
 {
     public partial class Store
@@ -16,7 +15,7 @@ namespace Service.DTO
         public string Address { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public string? Email { get; set; }
-        public bool? Flag { get; set; }
+        public bool? Status { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

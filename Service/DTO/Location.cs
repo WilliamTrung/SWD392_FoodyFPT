@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-
 namespace Service.DTO
 {
     public partial class Location
@@ -14,7 +13,7 @@ namespace Service.DTO
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public int Floor { get; set; }
-        public bool? Flag { get; set; }
+        public bool? Status { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
     }
