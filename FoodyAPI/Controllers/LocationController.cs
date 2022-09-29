@@ -81,7 +81,7 @@ namespace FoodyAPI.Controllers
         }
 
         // PUT api/<CategoryController>/5
-        [HttpPut("{location}")]
+        [HttpPut]
         public async Task<IActionResult> PutAsync(int id, string name, int floor)
         {
             try
@@ -107,6 +107,29 @@ namespace FoodyAPI.Controllers
                 return BadRequest(StatusCodes.Status500InternalServerError);
             }
         }
+        //PUT disable/enable 
+        //change entity's status
+        [HttpPut("enable-disable/{id}")]
+        public async Task<IActionResult> SwitchStatusAsync(int id)
+        {
+            try
+            {
+                var location = await _locationService.GetByIdAsync(id);
+                if(location.Status == true)
+                {
+                    location.Status = false;
+                } else
+                {
+                    location.Status = true;
+                }
+                var updated = await _locationService.UpdateAsync(id, location);
+                return Ok(updated);
+            } catch
+            {
+                return BadRequest(StatusCodes.Status500InternalServerError);
+            }
+        }
+
 
         // DELETE api/<LocationController>/5
         [HttpDelete("{id}")]

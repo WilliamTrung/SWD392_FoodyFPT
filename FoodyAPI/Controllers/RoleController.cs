@@ -82,7 +82,7 @@ namespace FoodyAPI.Controllers
         }
 
         // PUT api/<RoleController>/5
-        [HttpPut("{role}")]
+        [HttpPut]
         public async Task<IActionResult> PutAsync(int id, string name)
         {
             try
