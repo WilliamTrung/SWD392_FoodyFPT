@@ -145,8 +145,11 @@ namespace FoodyAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            return BadRequest(StatusCodes.Status501NotImplemented);//Ok("Not yet implemented!");
+            /*
             bool result = await _storeService.DeleteAsync(id);
             return Ok(result);
+            */
         }
     }
 }

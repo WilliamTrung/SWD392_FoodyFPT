@@ -144,7 +144,7 @@ namespace FoodyAPI.Controllers
         {
             //bool result = await _productService.DeleteAsync(id);
             //return Ok(result);
-            return Ok("Not yet implemented!");
+            return BadRequest(StatusCodes.Status501NotImplemented);//Ok("Not yet implemented!");
         }
     }
 }

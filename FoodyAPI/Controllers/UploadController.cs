@@ -50,7 +50,7 @@ namespace FoodyAPI.Controllers
                 return Ok(check);
             }
             */
-            return Ok("On maintenance!");
+            return BadRequest(StatusCodes.Status503ServiceUnavailable);
         }
     }
 }

@@ -100,7 +100,7 @@ namespace FoodyAPI.Controllers
         [HttpDelete]
         public async Task<IActionResult> Delete(int userId)
         {
-            return Ok("Not yet implemented!");
+            return BadRequest(StatusCodes.Status501NotImplemented);//Ok("Not yet implemented!");
         }
     }
 }
