@@ -18,7 +18,7 @@ namespace Service.DTO
         public string Phone { get; set; } = null!;
         public string Image { get; set; } = null!;
 
-        public virtual Role Role { get; set; } = null!;
+        public virtual Role? Role { get; set; } = null;
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Shipper> Shippers { get; set; }
     }

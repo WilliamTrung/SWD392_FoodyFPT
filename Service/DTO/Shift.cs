@@ -9,7 +9,7 @@ namespace Service.DTO
         public int ShipperId { get; set; }
         public bool Status { get; set; }
 
-        public virtual Shipper Shipper { get; set; } = null!;
-        public virtual Slot Slot { get; set; } = null!;
+        public virtual Shipper? Shipper { get; set; } = null;
+        public virtual Slot? Slot { get; set; } = null;
     }
 }

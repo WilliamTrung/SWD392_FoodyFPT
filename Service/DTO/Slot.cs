@@ -17,7 +17,7 @@ namespace Service.DTO
         public TimeSpan End { get; set; }
         public bool? Status { get; set; }
 
-        public virtual Menu Menu { get; set; } = null!;
+        public virtual Menu? Menu { get; set; } = null;
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Shift> Shifts { get; set; }
     }

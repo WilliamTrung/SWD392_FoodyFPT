@@ -18,10 +18,10 @@ namespace Service.DTO
         public DateTime Date { get; set; }
         public bool Status { get; set; }
 
-        public virtual Location Location { get; set; } = null!;
-        public virtual Shipper Shipper { get; set; } = null!;
-        public virtual Slot Slot { get; set; } = null!;
-        public virtual User User { get; set; } = null!;
+        public virtual Location? Location { get; set; } = null;
+        public virtual Shipper? Shipper { get; set; } = null;
+        public virtual Slot? Slot { get; set; } = null;
+        public virtual User? User { get; set; } = null;
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }
