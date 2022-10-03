@@ -14,10 +14,12 @@ namespace FoodyAPI.Controllers
     public class MenuController : ControllerBase
     {
         private IMenuService _menuService;
+        private IMenuDetailService _menuDetailService;
         // GET: api/<LocationController>
         public MenuController(FoodyContext context, IMapper mapper)
         {
             _menuService = new MenuService(mapper, context);
+            _menuDetailService = new MenuDetailService(mapper, context);
         }
         [HttpGet]
         public async Task<IActionResult> GetAsync()
