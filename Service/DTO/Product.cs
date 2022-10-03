@@ -19,8 +19,8 @@ namespace Service.DTO
         public int Quantity { get; set; }
         public bool Status { get; set; }
 
-        public virtual Category Category { get; set; } = null!;
-        public virtual Store Store { get; set; } = null!;
+        public virtual Category? Category { get; set; } = null;
+        public virtual Store? Store { get; set; } = null;
         public virtual ICollection<MenuDetail> MenuDetails { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
