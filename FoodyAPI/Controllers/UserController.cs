@@ -42,10 +42,11 @@ namespace FoodyAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(int roleId, string name, string email, string phone, string image)
+        public async Task<IActionResult> Post(User user)//int roleId, string name, string email, string phone, string image)
         {
             try
             {
+                /*
                 var user = new User()
                 {
                     Name = name,
@@ -54,6 +55,7 @@ namespace FoodyAPI.Controllers
                     Phone = phone,
                     Image = image
                 };
+                */
                 var created = await _userService.CreateAsync(user);
                 if(created != null)
                 {
@@ -69,10 +71,11 @@ namespace FoodyAPI.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Put(int userId,int roleId, string name, string email, string phone, string image)
+        public async Task<IActionResult> Put(User user)
         {
             try
             {
+                /*
                 var user = new User()
                 {
                     Id = userId,
@@ -82,7 +85,8 @@ namespace FoodyAPI.Controllers
                     Phone = phone,
                     Image = image
                 };
-                var updated = await _userService.UpdateAsync(userId, user);
+                */
+                var updated = await _userService.UpdateAsync(user.Id, user);
                 if (updated != null)
                 {
                     return Ok(updated);

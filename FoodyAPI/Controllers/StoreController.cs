@@ -60,10 +60,11 @@ namespace FoodyAPI.Controllers
 
         // POST api/<StoreController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(string name, string address, string phone, string email)
+        public async Task<IActionResult> PostAsync(Store store)
         {
             try
             {
+                /*
                 var store = new Store()
                 {
                     Name = name,
@@ -71,6 +72,7 @@ namespace FoodyAPI.Controllers
                     Phone = phone,
                     Email = email
                 };
+                */
                 var create = await _storeService.CreateAsync(store);
                 if (create != null)
                 {
@@ -89,10 +91,11 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<StoreController>/5
         [HttpPut]
-        public async Task<IActionResult> PutAsync(int id, string name, string address, string phone, string email)
+        public async Task<IActionResult> PutAsync(Store store)
         {
             try
             {
+                /*
                 var store = new Store()
                 {
                     Id = id,
@@ -102,7 +105,8 @@ namespace FoodyAPI.Controllers
                     Email = email,
                     Status = true
                 };
-                var updated = await _storeService.UpdateAsync(id, store);
+                */
+                var updated = await _storeService.UpdateAsync(store.Id, store);
                 if (updated != null)
                 {
                     return Ok(updated);

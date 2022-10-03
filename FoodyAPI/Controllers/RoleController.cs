@@ -57,14 +57,16 @@ namespace FoodyAPI.Controllers
 
         // POST api/<RoleController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(string name)
+        public async Task<IActionResult> PostAsync(Role role)
         {
             try
             {
+                /*
                 var role = new Role()
                 {
                     Name = name
                 };
+                */
                 var create = await _roleService.CreateAsync(role);
                 if (create != null)
                 {
@@ -83,16 +85,18 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<RoleController>/5
         [HttpPut]
-        public async Task<IActionResult> PutAsync(int id, string name)
+        public async Task<IActionResult> PutAsync(Role role)
         {
             try
             {
+                /*
                 var role = new Role()
                 {
                     Id = id,
                     Name = name
                 };
-                var updated = await _roleService.UpdateAsync(id, role);
+                */
+                var updated = await _roleService.UpdateAsync(role.Id, role);
                 if (updated != null)
                 {
                     return Ok(updated);

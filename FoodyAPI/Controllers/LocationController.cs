@@ -55,15 +55,17 @@ namespace FoodyAPI.Controllers
         // POST api/<LocationController>
         // POST api/<CategoryController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(string name, int floor)
+        public async Task<IActionResult> PostAsync(Location location)
         {
             try
             {
+                /*
                 var location = new Location()
                 {
                     Name = name,
                     Floor = floor
                 };
+                */
                 var created = await _locationService.CreateAsync(location);
                 if (created != null)
                 {
@@ -82,10 +84,11 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<CategoryController>/5
         [HttpPut]
-        public async Task<IActionResult> PutAsync(int id, string name, int floor)
+        public async Task<IActionResult> PutAsync(Location location)
         {
             try
             {
+                /*
                 var location = new Location()
                 {
                     Id = id,
@@ -93,7 +96,8 @@ namespace FoodyAPI.Controllers
                     Floor = floor,
                     Status = true
                 };
-                var updated = await _locationService.UpdateAsync(id, location);
+                */
+                var updated = await _locationService.UpdateAsync(location.Id, location);
                 if (updated != null)
                 {
                     return Ok(updated);

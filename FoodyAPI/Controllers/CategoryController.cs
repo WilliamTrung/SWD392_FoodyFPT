@@ -57,11 +57,11 @@ namespace FoodyAPI.Controllers
 
         // POST api/<CategoryController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(string name)
+        public async Task<IActionResult> PostAsync(Category category)
         {
             try
             {
-                var category = new Category { Name = name };
+                //var category = new Category { Name = name };
                 var created = await _categoryService.CreateAsync(category);
                 if (created != null)
                 {
@@ -80,16 +80,18 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<CategoryController>/5
         [HttpPut]
-        public async Task<IActionResult> PutAsync(int id, string name)
+        public async Task<IActionResult> PutAsync(Category category)
         {
             try
             {
+                /*
                 var category = new Category
                 {
                     Id = id,
                     Name = name
                 };
-                var update = await _categoryService.UpdateAsync(id, category);
+                */
+                var update = await _categoryService.UpdateAsync(category.Id, category);
                 if (update != null)
                 {
                     return Ok(update);

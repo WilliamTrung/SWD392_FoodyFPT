@@ -55,14 +55,16 @@ namespace FoodyAPI.Controllers
         // POST api/<LocationController>
         // POST api/<CategoryController>
         [HttpPost]
-        public async Task<IActionResult> PostAsync(string name)
+        public async Task<IActionResult> PostAsync(Menu menu)
         {
             try
             {
+                /*
                 var menu = new Menu()
                 {
                     Name = name
                 };
+                */
                 var create = await _menuService.CreateAsync(menu);
                 if (create != null)
                 {
