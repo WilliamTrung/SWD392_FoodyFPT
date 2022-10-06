@@ -36,7 +36,7 @@ namespace FoodyAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var dto = await _menuService.GetByIdAsync(id);
+            var dto = await _menuService.GetAsync(menu => menu.Id == id);
             if (dto == null)
             {
                 return NotFound();
@@ -85,20 +85,30 @@ namespace FoodyAPI.Controllers
 
         // PUT api/<CategoryController>/5
         [HttpPut]
-        public async Task<IActionResult> PutAsync(int id, string name)
+        public async Task<IActionResult> PutAsync(Menu menu)
         {
             try
             {
+                /*
                 var menu = new Menu()
                 {
                     Id = id,
                     Name = name,
                     Status = true
                 };
-                var updated = await _menuService.UpdateAsync(id, menu);
-                if (updated != null)
+                */  
+                var details = _menuDetailService.Distinct(menu.Id, menu.MenuDetails);
+                if(details != null && details.Result != null)
                 {
-                    return Ok(updated);
+                    menu.MenuDetails = details.Result.ToList();
+                } 
+                //update menu name
+                var updated = await _menuService.UpdateAsync(menu.Id, menu);
+                //update menu detail
+                var updated_menudetail = _menuDetailService.UpdateDetailsAsync(menu.MenuDetails);
+                if (updated != null && updated_menudetail.Result == true)
+                {
+                    return Ok(StatusCodes.Status200OK);
                 }
                 else
                 {
