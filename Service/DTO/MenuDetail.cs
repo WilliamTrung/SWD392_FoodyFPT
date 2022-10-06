@@ -9,7 +9,7 @@ namespace Service.DTO
         public int MenuId { get; set; }
         public bool Status { get; set; }
 
-        public virtual Menu? Menu { get; set; } = null;
+        //public virtual Menu? Menu { get; set; } = null;
         public virtual Product? Product { get; set; } = null;
     }
 }
