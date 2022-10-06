@@ -77,7 +77,7 @@ namespace Service.Service
             } 
             else
             {
-                return null;
+                return new List<TDto>();
             }
             //throw new NotImplementedException();
         }
