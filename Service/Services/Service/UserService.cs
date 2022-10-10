@@ -20,5 +20,29 @@ namespace Service.Services.Service
             _context = context;
             _mapper = mapper;
         }
+        //trungnt 10-10-2022 function 
+        //parameter: email - login email
+        //flow:
+        //find user by email
+        //if found -> return
+        //if not found -> register auto -> return
+        public async Task<DTO.User> LoginAsync(DTO.User loginUser)
+        {
+            //throw new NotImplementedException();
+            var find = await GetAsync(u => u.Email == loginUser.Email);
+            var found = find == null ? null : find.FirstOrDefault();
+            if(found == null)
+            {
+                //not in db
+                //set default value for new user
+                loginUser.Phone = "No data";
+                loginUser.RoleId = 2;
+                found = await CreateAsync(loginUser);
+            }
+            var role =  _context.Roles.FirstOrDefault(r => r.Id == found.RoleId);
+            //role.Users = null;
+            found.Role = _mapper.Map<DTO.Role>(role);
+            return found;
+        }
     }
 }

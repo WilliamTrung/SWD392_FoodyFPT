@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace Service.Services.IService
 {
-    public interface IUserService : IBaseService<DTO.User, User>
+    public interface IShipperService : IBaseService<DTO.Shipper, Shipper>
     {
-        public Task<DTO.User> LoginAsync(DTO.User user);
     }
 }

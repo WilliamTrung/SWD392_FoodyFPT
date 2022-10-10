@@ -1,6 +1,12 @@
 using ApplicationCore.Context;
+using AutoMapper.Features;
+using Google.Apis.Auth.AspNetCore3;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Service;
+using Service.Helper;
+using Service.Services.IService;
+using Service.Services.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +17,40 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMvc();
+//trungnt 10-10-2022 add start
+//add auth google
+builder.Services.AddAuthentication(o =>
+{
+    // This forces challenge results to be handled by Google OpenID Handler, so there's no
+    // need to add an AccountController that emits challenges for Login.
+    o.DefaultChallengeScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+    // This forces forbid results to be handled by Google OpenID Handler, which checks if
+    // extra scopes are required and does automatic incremental auth.
+    o.DefaultForbidScheme = GoogleOpenIdConnectDefaults.AuthenticationScheme;
+    // Default scheme that will handle everything else.
+    // Once a user is authenticated, the OAuth2 token info is stored in cookies.
+    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+        .AddCookie()
+        .AddGoogleOpenIdConnect(options =>
+        {
+            options.ClientId = Constants.Instance.GOOGLE_CLIENT_ID;
+            options.ClientSecret = Constants.Instance.GOOGLE_CLIENT_SECRET;
+        }
+);
+//trungnt 10-10-2022 add end
+//trungnt 10-10-2022 add start
+//add session services
+builder.Services.AddDistributedMemoryCache();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(120);
+    options.Cookie.HttpOnly = true;
+    //options.Cookie.IsEssential = true;
+});
+
+//trungnt 10-10-2022 add end
 using (var config = builder.Configuration)
 {
     string connectionString = config.GetConnectionString("DefaultConnection");
@@ -19,9 +58,22 @@ using (var config = builder.Configuration)
     builder.Services.AddDbContext<FoodyContext>(options => options.UseSqlServer(connectionString));
     builder.Services.AddAutoMapper(typeof(Mapping));
     builder.Services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Error
     );
 }
+//trungnt 10-10-2022 add start
+//add transient of services
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+//builder.Services.AddTransient<ILocationService, ILocationService>();
+builder.Services.AddTransient<IMenuDetailService, MenuDetailService>();
+builder.Services.AddTransient<IMenuService, MenuService>();
+builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddTransient<IRoleService, RoleService>();
+//builder.Services.AddTransient<IShipperService, ShipperService>();
+builder.Services.AddTransient<IStoreService, StoreService>();
+
+//trungnt 10-10-2022 add end
 //builder.Services.AddScoped<IProductService, ProductService>();
 var app = builder.Build();
 
@@ -34,6 +86,14 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+//trungnt 09-10-2022 add start
+//for google authentication
+app.UseAuthentication();
+//trungnt 09-10-2022 add end
+//trungnt 10-10-2022 add start
+//add session service
+app.UseSession();
+//trungnt 10-10-2022 add end
 
 app.MapControllers();
 

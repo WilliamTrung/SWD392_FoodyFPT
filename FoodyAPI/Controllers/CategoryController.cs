@@ -6,20 +6,28 @@ using ApplicationCore.Context;
 using System;
 using Service.Services.IService;
 using Service.Services.Service;
+using FoodyAPI.Filter;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FoodyAPI.Controllers
 {
+    [CustomActionFilter]
     [Route("api/category")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
         // GET: api/<CategoryController>
         ICategoryService _categoryService;
+        /*
         public CategoryController(FoodyContext context, IMapper mapper)
         {
             _categoryService = new CategoryService(mapper, context);
+        }
+        */
+        public CategoryController(ICategoryService categoryService)
+        {
+            _categoryService = categoryService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAsync()
