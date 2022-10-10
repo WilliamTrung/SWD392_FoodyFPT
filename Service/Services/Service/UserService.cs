@@ -40,7 +40,9 @@ namespace Service.Services.Service
                 found = await CreateAsync(loginUser);
             }
             var role =  _context.Roles.FirstOrDefault(r => r.Id == found.RoleId);
-            //role.Users = null;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            role.Users = null;
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             found.Role = _mapper.Map<DTO.Role>(role);
             return found;
         }
