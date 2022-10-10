@@ -15,9 +15,15 @@ namespace FoodyAPI.Controllers
     {
         private ILocationService _locationService;
         // GET: api/<LocationController>
+        /*
         public LocationController(FoodyContext context, IMapper mapper)
         {
             _locationService = new LocationService(mapper, context);
+        }
+        */
+        public LocationController(ILocationService locationService)
+        {
+            _locationService = locationService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAsync()

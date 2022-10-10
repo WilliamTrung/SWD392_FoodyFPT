@@ -13,12 +13,16 @@ namespace FoodyAPI.Controllers
     public class UserController : ControllerBase
     {
         private IUserService _userService;
-
+        /*
         public UserController(FoodyContext context, IMapper mapper)
         {
             _userService = new UserService(mapper, context);
         }
-
+        */
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
         [HttpGet]
         public async Task<IActionResult> Get()
         {

@@ -16,9 +16,15 @@ namespace FoodyAPI.Controllers
     {
         // GET: api/<ProductController>
         IProductService _productService;
+        /*
         public ProductController(FoodyContext context, IMapper mapper)
         {
             _productService = new ProductService(mapper,context);
+        }
+        */
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAsync()

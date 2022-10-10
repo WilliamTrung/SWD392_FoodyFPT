@@ -18,9 +18,15 @@ namespace FoodyAPI.Controllers
     {
         
         IStoreService _storeService;
+        /*
         public StoreController(FoodyContext context, IMapper mapper)
         {
             _storeService = new StoreService(mapper,context);
+        }
+        */
+        public StoreController(IStoreService storeService)
+        {
+            _storeService = storeService;
         }
         // GET: api/<StoreController>
         [HttpGet]

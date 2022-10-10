@@ -17,9 +17,15 @@ namespace FoodyAPI.Controllers
     {
         // GET: api/<RoleController>
         IRoleService _roleService;
+        /*
         public RoleController(FoodyContext context, IMapper mapper)
         {
             _roleService = new RoleService(mapper, context);
+        }
+        */
+        public RoleController(IRoleService roleService)
+        {
+            _roleService = roleService;
         }
         [HttpGet]
         public async Task<IActionResult> GetAsync()
