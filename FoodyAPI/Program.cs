@@ -34,8 +34,8 @@ builder.Services.AddAuthentication(o =>
         .AddCookie()
         .AddGoogleOpenIdConnect(options =>
         {
-            options.ClientId = Constants.Instance.GOOGLE_CLIENT_ID;
-            options.ClientSecret = Constants.Instance.GOOGLE_CLIENT_SECRET;
+            options.ClientId = Constants.GOOGLE_CLIENT_ID;
+            options.ClientSecret = Constants.GOOGLE_CLIENT_SECRET;
         }
 );
 //trungnt 10-10-2022 add end
