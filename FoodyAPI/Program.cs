@@ -49,8 +49,22 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     //options.Cookie.IsEssential = true;
 });
-
 //trungnt 10-10-2022 add end
+//trungnt 11-10-2022 add start
+//enable cors for all
+var allowedOrigin = "AllowedOrigin";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowedOrigin,
+                      policy =>
+                      {
+                          policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                      });
+});
+//trungnt 11-10-2022 add end
 using (var config = builder.Configuration)
 {
     string connectionString = config.GetConnectionString("DefaultConnection");
@@ -92,6 +106,10 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+//trungnt 11-10-2022 add start
+//enable and use cors for all client
+app.UseCors(allowedOrigin);
+//trungnt 11-10-2022 add end
 //trungnt 09-10-2022 add start
 //for google authentication
 app.UseAuthentication();
