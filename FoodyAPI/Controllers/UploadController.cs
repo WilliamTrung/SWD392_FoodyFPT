@@ -1,11 +1,9 @@
 ﻿using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Azure.WebJobs;
 using System.Net;
 using NuGet.Protocol;
-using Service.Helper;
+using FoodyAPI.Helper.Azure;
 
 namespace FoodyAPI.Controllers
 {
@@ -20,6 +18,7 @@ namespace FoodyAPI.Controllers
         }
         private async Task<IActionResult> Upload(IFormFile file)
         {
+            /*
             //for testing
             var blobStorage = _config.GetSection("BlobStorage");
             var containerName = blobStorage["ContainerName"]; 
@@ -27,11 +26,19 @@ namespace FoodyAPI.Controllers
             //var imgStorage = imgSrc["Storage"];
 
             Stream myBlob =  file.OpenReadStream();
-            var blobContainer = AzureService.GetBlobContainer(_config, containerName);
+            //set blob container
+            var blobContainer = AzureService.CheckBlobContainer(_config, containerName);
+            if(blobContainer == null)
+            {
+                return Ok(StatusCodes.Status404NotFound);
+            }
+            //set file
             var blob = blobContainer.GetBlobClient(file.FileName);
+            //upload file
             await blob.UploadAsync(myBlob);
             return Ok(AzureService.GetBlobResourcePath(_config, containerName, file.FileName));
-
+            */
+            return BadRequest(StatusCodes.Status503ServiceUnavailable);
         }
         [HttpPost("upload")]
         public async Task<IActionResult> Upload(List<IFormFile> files)

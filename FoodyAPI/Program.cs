@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Service;
 using Service.Helper;
+using FoodyAPI.Helper.Azure.Blob;
+using FoodyAPI.Helper.Azure.IBlob;
 using Service.Services.IService;
 using Service.Services.Service;
 
@@ -88,6 +90,11 @@ builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IStoreService, StoreService>();
 
 //trungnt 10-10-2022 add end
+
+//trungnt 14-10-2022 add start
+//add transient of Product Blob
+builder.Services.AddTransient<IProductBlob, ProductBlob>();
+//trungnt 14-10-2022 add end
 
 //anhtn 10-10-2022 add start
 builder.Services.AddTransient<ILocationService, LocationService>();
