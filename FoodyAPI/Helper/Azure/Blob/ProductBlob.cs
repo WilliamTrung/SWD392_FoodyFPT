@@ -28,19 +28,26 @@ namespace FoodyAPI.Helper.Azure.Blob
             blobContainer = AzureService.CheckBlobContainerAsync(blobStorage, container).Result;//blobStorage.GetBlobContainerClient(container);
         }
 
-        public string? GetURL(Product product)
+        public List<string>? GetURL(Product product)
         {
             //throw new NotImplementedException();
-            string? result = null;
+            List<string>? result = null;
             if (blobStorage == null || blobContainer == null)
                 return result;
             string blobName = product.Id.ToString() + ".png";
-            var blob = blobContainer.GetBlobClient(blobName);
-            result = blob.Uri.ToString();
+            string prefix = product.Id.ToString() + "_";
+            var blobs = blobContainer.GetBlobs(prefix: prefix);
+            string url_prefix = blobContainer.Uri.ToString();
+            result = new List<string>();
+            foreach(var blob in blobs)
+            {
+                string url = url_prefix +"/"+ blob.Name;
+                result.Add(url);
+            }
+            //result = blob.Uri.ToString();
             return result;
         }
-
-        public async Task<bool> UploadAsync(IFormFile file, int productId)
+        public async Task<bool> UploadAsync(List<IFormFile> files, int productId)
         {
             //throw new NotImplementedException();
             try
@@ -52,14 +59,17 @@ namespace FoodyAPI.Helper.Azure.Blob
                     return false;
                 if (blobContainer != null)
                 {
-                    string extension = "png";//file.ContentType.Split("/")[1];
-                    string filename = productId.ToString() + "." + extension;
-                    var blob = blobContainer.GetBlobClient(filename);
-                    Dictionary<string, string> tag = new Dictionary<string, string>{
-                    { "ID", productId.ToString() }
-                };
-                    var stream = file.OpenReadStream();
-                    await blob.UploadAsync(stream, overwrite: true);
+                    int i = 0;
+                    string prefix = product.Id.ToString() + "_";
+                    foreach (var file in files)
+                    {
+                        string extension = file.ContentType.Split("/")[1];
+                        string filename = productId.ToString() + "_"+ (++i) + "." + extension;
+                        var blob = blobContainer.GetBlobClient(filename);
+                        var stream = file.OpenReadStream();
+                        await blob.UploadAsync(stream, overwrite: true);
+                        
+                    }
                     return true;
                 }
                 else

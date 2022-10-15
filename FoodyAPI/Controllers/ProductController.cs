@@ -77,11 +77,16 @@ namespace FoodyAPI.Controllers
         }
         // POST api/<ProductController>
         [HttpPost("upload")]
-        public async Task<IActionResult> PostPicture(IFormFile picture, int productId)
+        public async Task<IActionResult> PostPicture(List<IFormFile> pictures, int productId)
         {
-            if (!picture.ContentType.Contains("image"))
-                return BadRequest();
-            var check = await _productBlob.UploadAsync(picture, productId);
+            foreach(var picture in pictures)
+            {
+                if (!picture.ContentType.Contains("image"))
+                {
+                    return BadRequest();
+                }
+            }
+            var check = await _productBlob.UploadAsync(pictures, productId);
             if (!check)
             {
                 return Ok(StatusCodes.Status500InternalServerError); 

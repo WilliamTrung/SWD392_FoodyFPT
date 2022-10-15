@@ -18,7 +18,7 @@ namespace Service.DTO
         public decimal Price { get; set; }
         public int Quantity { get; set; }
 
-        public string? Picture { get; set; }
+        public ICollection<string>? Picture { get; set; }
         public bool Status { get; set; }
 
         public virtual Category? Category { get; set; } = null;
