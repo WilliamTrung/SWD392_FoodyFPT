@@ -96,6 +96,12 @@ builder.Services.AddTransient<IStoreService, StoreService>();
 builder.Services.AddTransient<IProductBlob, ProductBlob>();
 //trungnt 14-10-2022 add end
 
+//trungnt 15-10-2022 add start
+//add transient of shipper order orderdetail
+builder.Services.AddTransient<IShipperService, ShipperService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IOrderDetailService, OrderDetailService>();
+//trungnt 15-10-2022 add end
 //anhtn 10-10-2022 add start
 builder.Services.AddTransient<ILocationService, LocationService>();
 
