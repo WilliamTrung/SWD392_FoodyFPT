@@ -7,12 +7,13 @@ using System;
 using Service.Services.IService;
 using Service.Services.Service;
 using FoodyAPI.Filter;
+using Service.Helper;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FoodyAPI.Controllers
 {
-    [CustomActionFilter]
+    [Authorized("User,Administrator")]
     [Route("api/category")]
     [ApiController]
     public class CategoryController : ControllerBase

@@ -1,12 +1,15 @@
-﻿using Azure.Storage.Blobs;
+﻿
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Helper
+namespace FoodyAPI.Helper.Azure
 {
     public class AzureService
     {
@@ -18,43 +21,28 @@ namespace Service.Helper
                 var connection = blobStorage["AzureWebJobsStorage"];
                 BlobServiceClient blob = new BlobServiceClient(connection);
                 return blob;
-            }  
+            }
             catch
             {
                 throw new Exception("Cannot retrieve blob storage data!");
             }
         }
-        public static BlobContainerClient GetBlobContainer(IConfiguration _config, string containerName)
+        public static async Task<BlobContainerClient?> CheckBlobContainerAsync(BlobServiceClient blobStorage, string containerName)
         {
+            BlobContainerClient blobContainer;
             try
             {
-                var blobStorage = GetBlobServiceClient(_config);
-                var blobContainer = blobStorage.GetBlobContainerClient(containerName);
-                return blobContainer;
+                blobContainer = (await blobStorage.CreateBlobContainerAsync(containerName, PublicAccessType.Blob)).Value;
             } catch
             {
-                throw new Exception("Cannot retrieve blob container!");
+                blobContainer = blobStorage.GetBlobContainerClient(containerName);
             }
+            return blobContainer;
         }
-        public static bool CreateBlobContainer(IConfiguration _config, string containerName)
+        public static bool CheckBlobClient(BlobContainerClient blobContainer, string client)
         {
-            var blobStorage = GetBlobServiceClient(_config);
-            if(blobStorage != null)
-            {
-                try
-                {
-                    blobStorage.CreateBlobContainerAsync(containerName).Wait();
-                    return true;
-                }
-                catch
-                {
-                    throw new Exception("Cannot create blob container due to Azure services!");
-                }
-                
-            } else
-            {
-                return false;
-            }
+            var result = blobContainer.GetBlobClient(client);
+            return result == null ? false : true;
         }
         public static string GetBlobResourcePath(IConfiguration _config, string containerName, string fileName)
         {

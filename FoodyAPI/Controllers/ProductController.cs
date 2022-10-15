@@ -6,6 +6,11 @@ using ApplicationCore.Context;
 using System;
 using Service.Services.IService;
 using Service.Services.Service;
+using Newtonsoft.Json;
+using Service.View;
+using FoodyAPI.Helper.Azure.IBlob;
+using FoodyAPI.Helper.Azure;
+using FoodyAPI.Helper.Azure.IBlob;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FoodyAPI.Controllers
@@ -16,15 +21,17 @@ namespace FoodyAPI.Controllers
     {
         // GET: api/<ProductController>
         IProductService _productService;
+        IProductBlob _productBlob;
         /*
         public ProductController(FoodyContext context, IMapper mapper)
         {
             _productService = new ProductService(mapper,context);
         }
         */
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IProductBlob productBlob)
         {
             _productService = productService;
+            _productBlob = productBlob;
         }
         [HttpGet]
         public async Task<IActionResult> GetAsync()
@@ -34,7 +41,13 @@ namespace FoodyAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(list);
+            foreach(var product in list)
+            {
+                product.Picture = _productBlob.GetURL(product);
+            }
+            var products = new ProductView(list);
+            var json = JsonConvert.SerializeObject(products);
+            return Ok(json);
         }
 
         // GET api/<ProductController>/5
@@ -46,6 +59,7 @@ namespace FoodyAPI.Controllers
             {
                 return NotFound();
             }
+            dto.Picture = _productBlob.GetURL(dto);
             return Ok(dto);
         }
         // GET api/<ProductController>/name
@@ -57,9 +71,23 @@ namespace FoodyAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(list);
+            var products = new ProductView(list);
+            var json = JsonConvert.SerializeObject(products);
+            return Ok(json);
         }
         // POST api/<ProductController>
+        [HttpPost("upload")]
+        public async Task<IActionResult> PostPicture(IFormFile picture, int productId)
+        {
+            if (!picture.ContentType.Contains("image"))
+                return BadRequest();
+            var check = await _productBlob.UploadAsync(picture, productId);
+            if (!check)
+            {
+                return Ok(StatusCodes.Status500InternalServerError); 
+            }
+            return Ok(StatusCodes.Status200OK);
+        }
         [HttpPost]
         public async Task<IActionResult> PostAsync(Product product)
         {

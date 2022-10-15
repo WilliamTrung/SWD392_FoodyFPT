@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Service;
 using Service.Helper;
+using FoodyAPI.Helper.Azure.Blob;
+using FoodyAPI.Helper.Azure.IBlob;
 using Service.Services.IService;
 using Service.Services.Service;
 
@@ -34,8 +36,8 @@ builder.Services.AddAuthentication(o =>
         .AddCookie()
         .AddGoogleOpenIdConnect(options =>
         {
-            options.ClientId = Constants.Instance.GOOGLE_CLIENT_ID;
-            options.ClientSecret = Constants.Instance.GOOGLE_CLIENT_SECRET;
+            options.ClientId = Constants.GOOGLE_CLIENT_ID;
+            options.ClientSecret = Constants.GOOGLE_CLIENT_SECRET;
         }
 );
 //trungnt 10-10-2022 add end
@@ -49,8 +51,22 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     //options.Cookie.IsEssential = true;
 });
-
 //trungnt 10-10-2022 add end
+//trungnt 11-10-2022 add start
+//enable cors for all
+var allowedOrigin = "AllowedOrigin";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: allowedOrigin,
+                      policy =>
+                      {
+                          policy
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                      });
+});
+//trungnt 11-10-2022 add end
 using (var config = builder.Configuration)
 {
     string connectionString = config.GetConnectionString("DefaultConnection");
@@ -75,6 +91,11 @@ builder.Services.AddTransient<IStoreService, StoreService>();
 
 //trungnt 10-10-2022 add end
 
+//trungnt 14-10-2022 add start
+//add transient of Product Blob
+builder.Services.AddTransient<IProductBlob, ProductBlob>();
+//trungnt 14-10-2022 add end
+
 //anhtn 10-10-2022 add start
 builder.Services.AddTransient<ILocationService, LocationService>();
 
@@ -92,6 +113,10 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+//trungnt 11-10-2022 add start
+//enable and use cors for all client
+app.UseCors(allowedOrigin);
+//trungnt 11-10-2022 add end
 //trungnt 09-10-2022 add start
 //for google authentication
 app.UseAuthentication();
