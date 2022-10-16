@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using ApplicationCore.Context;
+using Microsoft.Extensions.Configuration;
+using ApplicationCore.Models;
 
 namespace ApplicationCore.Repository
 {
@@ -101,30 +103,22 @@ namespace ApplicationCore.Repository
                 throw new Exception("GenericRepository Update Failed");
             }
         }
-
-        public async Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>>? filter = null)
+        public Task<IQueryable<TEntity>> GetList(Expression<Func<TEntity, bool>>? filter = null, string? includeProperties = null)
         {
-            var list_entities = await _context.Set<TEntity>().ToListAsync();
-            if (list_entities != null && list_entities.Count() > 0)
+            var _dbSet = _context.Set<TEntity>();
+            var query = _dbSet.AsQueryable();
+            if (includeProperties != null)
             {
-                var list_entities_query = list_entities.AsQueryable();
-                if (filter != null)
+                foreach (string property in includeProperties.Split(","))
                 {
-                    list_entities_query = list_entities_query.Where(filter);
+                    query = query.Include(property);
                 }
-                var list_entities_enumerable = list_entities_query.AsEnumerable();
-
-                //Modify TrungNT 24-09-2022 Start
-                //previous:
-                //return list_entities;
-
-                return list_entities_enumerable;
-                //Modify TrungNT 24-09-2022 End
             }
-            else
+            if (filter != null)
             {
-                return null;
+                query = query.Where(filter);
             }
+            return Task.FromResult(query.AsNoTracking());
         }
     }
 }

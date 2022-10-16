@@ -7,7 +7,6 @@ using Service.Services.IService;
 
 namespace FoodyAPI.Controllers
 {
-    [CustomActionFilter]
     [Route("api/shipper")]
     [ApiController]
     public class ShipperController : ControllerBase
@@ -46,7 +45,7 @@ namespace FoodyAPI.Controllers
         [HttpGet("name/{name}")]
         public async Task<IActionResult> Get(string name)
         {
-            var list = await _shipperService.GetAsync(p => p.User.Name.ToUpper().Contains(name.ToUpper()));   
+            var list = await _shipperService.GetAsync(filter: p => p.User.Name.ToUpper().Contains(name.ToUpper()));   
             if (list == null)
             {
                 return NotFound();

@@ -2,6 +2,7 @@
 using ApplicationCore.Models;
 using ApplicationCore.Repository;
 using AutoMapper;
+using Service.Helper;
 using Service.Service;
 using Service.Services.IService;
 using System;
@@ -27,7 +28,7 @@ namespace Service.Services.Service
             _userService = new UserService(mapper, context);
         }
 
-        public override Task<IEnumerable<DTO.Shipper>> GetAsync(Expression<Func<Shipper, bool>>? filter = null)
+        public override Task<IEnumerable<DTO.Shipper>> GetAsync(PagingRequest? paging = null, Expression<Func<Shipper, bool>>? filter = null, string? includeProperties = null)
         {
             var list = _foodContext.Shippers.ToList();
             foreach(var item in list)

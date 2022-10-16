@@ -31,7 +31,7 @@ namespace FoodyAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var list = await _menuService.GetAsync();
+            var list = await _menuService.GetAsync(includeProperties: "MenuDetails");
             if (list == null)
             {
                 return NotFound();
@@ -43,7 +43,7 @@ namespace FoodyAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var dto = await _menuService.GetAsync(menu => menu.Id == id);
+            var dto = await _menuService.GetAsync(filter: menu => menu.Id == id);
             if (dto == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace FoodyAPI.Controllers
         [HttpGet("name/{name}")]
         public async Task<IActionResult> Get(string name)
         {
-            var list = await _menuService.GetAsync(p => p.Name.ToUpper().Contains(name.ToUpper()));
+            var list = await _menuService.GetAsync(filter: p => p.Name.ToUpper().Contains(name.ToUpper()));
             if (list == null)
             {
                 return NotFound();

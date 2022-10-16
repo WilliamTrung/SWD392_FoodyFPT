@@ -15,6 +15,6 @@ namespace ApplicationCore.Models
         public int Floor { get; set; }
         public bool? Status { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order>? Orders { get; set; }
     }
 }

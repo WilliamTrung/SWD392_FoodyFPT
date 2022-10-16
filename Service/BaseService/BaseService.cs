@@ -2,6 +2,7 @@
 using ApplicationCore.Repository;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Service.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,9 +63,35 @@ namespace Service.Service
             }
         }
 
-        public async virtual Task<IEnumerable<TDto>> GetAsync(Expression<Func<TEntity, bool>>? filter = null)
+        public virtual TEntity DisableSelfReference(TEntity entity)
         {
-            var list_entities = await _repository.GetList(filter);
+            //throw new NotImplementedException();
+            return entity;
+        }
+
+        public async virtual Task<IEnumerable<TDto>> GetAsync(PagingRequest? paging = null,Expression<Func<TEntity, bool>>? filter = null, string? includeProperties = null)
+        {
+            var list_entities_raw = (await _repository.GetList(filter, includeProperties)).AsEnumerable();
+            //Paging apply
+            if (paging == null || paging.PageIndex <= 0 || paging.PageSize <= 0)
+                paging = new PagingRequest();
+            list_entities_raw = list_entities_raw.Skip((paging.PageIndex - 1) * paging.PageSize)
+               .Take(paging.PageSize);
+
+            var list_entities = new List<TEntity>();
+            for (int i = 0; i< list_entities_raw.Count(); i++)
+            {
+                var entity = list_entities_raw.ElementAt(i);
+                entity = DisableSelfReference(entity);
+                list_entities.Add(entity);
+            }
+            //await list_entities.ForEachAsync(e => e = DisableSelfReference(e));
+            /*
+            foreach(var entity in list_entities)
+            {
+                DisableSelfReference(ref entity);
+            }
+            */
             if(list_entities != null && list_entities.Count() > 0)
             {
                 List<TDto> list_dto = new List<TDto>();

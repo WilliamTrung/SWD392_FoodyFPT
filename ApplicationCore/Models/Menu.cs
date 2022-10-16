@@ -16,6 +16,6 @@ namespace ApplicationCore.Models
         public bool Status { get; set; }
 
         public virtual ICollection<MenuDetail> MenuDetails { get; set; }
-        public virtual ICollection<Slot> Slots { get; set; }
+        public virtual ICollection<Slot>? Slots { get; set; }
     }
 }

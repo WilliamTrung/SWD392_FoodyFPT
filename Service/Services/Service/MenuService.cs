@@ -2,6 +2,7 @@
 using ApplicationCore.Models;
 using ApplicationCore.Repository;
 using AutoMapper;
+using Service.Helper;
 using Service.Service;
 using Service.Services.IService;
 using System;
@@ -26,12 +27,12 @@ namespace Service.Services.Service
             _menuDetailService = new MenuDetailService(_mapper, context);
         }
 
-        public override Task<IEnumerable<DTO.Menu>> GetAsync(Expression<Func<Menu, bool>>? filter = null)
+        public override Task<IEnumerable<DTO.Menu>> GetAsync(PagingRequest? paging = null, Expression<Func<Menu, bool>>? filter = null, string? includeProperties = null)
         {
-            var result =  base.GetAsync(filter);
+            var result =  base.GetAsync(paging, filter, includeProperties);
             foreach (var item in result.Result)
             {
-                var details = _menuDetailService.GetAsync(detail => detail.MenuId == item.Id).Result.ToList();
+                var details = _menuDetailService.GetAsync(filter: detail => detail.MenuId == item.Id).Result.ToList();
                 if(details != null)
                 {
                     item.MenuDetails = details;

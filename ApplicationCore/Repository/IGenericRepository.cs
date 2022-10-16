@@ -15,6 +15,6 @@ namespace ApplicationCore.Repository
         void Delete(TEntity entity);
         void Update(int id, TEntity entity);
         Task<int> SaveChangesAsync();
-        Task<IEnumerable<TEntity>> GetList(Expression<Func<TEntity, bool>>? filter = null);
+        Task<IQueryable<TEntity>> GetList(Expression<Func<TEntity, bool>>? filter = null, string? includeProperties = null);
     }
 }

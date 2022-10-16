@@ -29,7 +29,7 @@ namespace Service.Services.Service
         public async Task<DTO.User> LoginAsync(DTO.User loginUser)
         {
             //throw new NotImplementedException();
-            var find = await GetAsync(u => u.Email == loginUser.Email);
+            var find = await GetAsync(filter: u => u.Email == loginUser.Email);
             var found = find == null ? null : find.FirstOrDefault();
             if(found == null)
             {

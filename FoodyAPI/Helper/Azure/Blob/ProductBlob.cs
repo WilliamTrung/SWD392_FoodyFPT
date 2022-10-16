@@ -54,7 +54,7 @@ namespace FoodyAPI.Helper.Azure.Blob
             {
                 if (blobStorage == null)
                     return false;
-                var product = (await _productService.GetAsync(p => p.Id == productId)).FirstOrDefault();
+                var product = (await _productService.GetAsync(filter: p => p.Id == productId)).FirstOrDefault();
                 if (product == null)
                     return false;
                 if (blobContainer != null)

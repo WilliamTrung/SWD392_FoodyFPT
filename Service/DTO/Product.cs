@@ -7,8 +7,8 @@ namespace Service.DTO
     {
         public Product()
         {
-            MenuDetails = new HashSet<MenuDetail>();
-            OrderDetails = new HashSet<OrderDetail>();
+            //MenuDetails = new HashSet<MenuDetail>();
+            //OrderDetails = new HashSet<OrderDetail>();
         }
 
         public int Id { get; set; }
@@ -23,8 +23,8 @@ namespace Service.DTO
 
         public virtual Category? Category { get; set; } = null;
         public virtual Store? Store { get; set; } = null;
-        public virtual ICollection<MenuDetail> MenuDetails { get; set; }
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<MenuDetail>? MenuDetails { get; set; }
+        public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
 
         
     }

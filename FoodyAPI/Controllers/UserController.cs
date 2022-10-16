@@ -37,7 +37,7 @@ namespace FoodyAPI.Controllers
         [HttpGet("name/{name}")]
         public async Task<IActionResult> Get(string name)
         {
-            var list_user = await _userService.GetAsync(user => user.Name.ToUpper().Contains(name.ToUpper()));
+            var list_user = await _userService.GetAsync(filter: user => user.Name.ToUpper().Contains(name.ToUpper()));
             if (list_user != null && list_user.Count() > 0)
             {
                 return Ok(list_user);

@@ -11,6 +11,7 @@ using Service.View;
 using FoodyAPI.Helper.Azure.IBlob;
 using FoodyAPI.Helper.Azure;
 using FoodyAPI.Helper.Azure.IBlob;
+using Service.Helper;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace FoodyAPI.Controllers
@@ -34,9 +35,9 @@ namespace FoodyAPI.Controllers
             _productBlob = productBlob;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync([FromQuery] PagingRequest paging)
         {
-            var list = await _productService.GetAsync();
+            var list = await _productService.GetAsync(paging: paging, includeProperties: "Category,Store");
             if(list == null)
             {
                 return NotFound();
@@ -66,7 +67,7 @@ namespace FoodyAPI.Controllers
         [HttpGet("name/{name}")]
         public async Task<IActionResult> Get(string name)
         {
-            var list = await _productService.GetAsync(p => p.Name.ToUpper().Contains(name.ToUpper()));
+            var list = await _productService.GetAsync(filter: p => p.Name.ToUpper().Contains(name.ToUpper()));
             if (list == null)
             {
                 return NotFound();
