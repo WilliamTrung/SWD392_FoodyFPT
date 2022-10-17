@@ -45,7 +45,7 @@ namespace FoodyAPI.Controllers
         [HttpGet("name/{name}")]
         public async Task<IActionResult> Get(string name)
         {
-            var list = await _shipperService.GetAsync(filter: p => p.User.Name.ToUpper().Contains(name.ToUpper()));   
+            var list = await _shipperService.GetAsync(filter: p => p.User.Name.ToUpper().Contains(name.ToUpper()), includeProperties: "User");   
             if (list == null)
             {
                 return NotFound();
