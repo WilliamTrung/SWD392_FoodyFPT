@@ -10,6 +10,6 @@ namespace Service.Services.IService
 {
     public interface IProductService : IBaseService<DTO.Product, Product>
     {
-
+        public Task<bool> CheckOut(DTO.OrderDetail detail);
     }
 }
