@@ -10,5 +10,6 @@ namespace Service.Services.IService
 {
     public interface IOrderService: IBaseService<DTO.Order, Order>
     {
+        public Task<bool> CheckOut(DTO.Order order);
     }
 }
