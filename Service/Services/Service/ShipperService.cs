@@ -28,29 +28,44 @@ namespace Service.Services.Service
             _userService = new UserService(mapper, context);
         }
 
+        public override Shipper DisableSelfReference(Shipper entity)
+        {
+            if (entity.User != null)
+            {
+                entity.User.Shippers = null;
+            }
+            return entity;
+        }
+
         public override Task<IEnumerable<DTO.Shipper>> GetAsync(PagingRequest? paging = null, Expression<Func<Shipper, bool>>? filter = null, string? includeProperties = null)
         {
-            var list = _foodContext.Shippers.ToList();
-            foreach(var item in list)
+            //            var list = _foodContext.Shippers.ToList();
+            //            foreach(var item in list)
+            //            {
+            //#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+            //                User user = _foodContext.Users.FirstOrDefault(x => x.Id == item.UserId);
+            //                if(user != null)
+            //                {
+            //                    user.Shippers = null;
+            //                    item.User = user;
+            //                }
+            //            }
+            //            if(filter != null)
+            //            {
+            //                list = list.AsQueryable().Where(filter).ToList();
+            //            }
+            //            var list_dto = new List<DTO.Shipper>();
+            //            foreach(var item in list)
+            //            {
+            //                list_dto.Add(_mapper.Map<DTO.Shipper>(item));
+            //            }
+            //            return Task.FromResult(list_dto.AsEnumerable());
+            var list = base.GetAsync(paging, filter, includeProperties);
+            foreach (var item in list.Result)
             {
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-                User user = _foodContext.Users.FirstOrDefault(x => x.Id == item.UserId);
-                if(user != null)
-                {
-                    user.Shippers = null;
-                    item.User = user;
-                }
+                DisableSelfReference(_mapper.Map<Shipper>(item));
             }
-            if(filter != null)
-            {
-                list = list.AsQueryable().Where(filter).ToList();
-            }
-            var list_dto = new List<DTO.Shipper>();
-            foreach(var item in list)
-            {
-                list_dto.Add(_mapper.Map<DTO.Shipper>(item));
-            }
-            return Task.FromResult(list_dto.AsEnumerable());
+            return list;
         }
     }
 }
