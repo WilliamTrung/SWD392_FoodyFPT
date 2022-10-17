@@ -30,7 +30,7 @@ namespace Service.Services.Service
             try
             {
                 if (entity == null) throw new ArgumentNullException("entity");
-                var found = _context.Find<OrderDetail>(entity.ProductId, id);
+                var found = _context.Find<OrderDetail>(id, entity.ProductId);
 #pragma warning disable CS8073 // The result of the expression is always the same since a value of this type is never equal to 'null'
                 if (found != null)
                 {
