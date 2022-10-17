@@ -24,6 +24,12 @@ namespace Service.Services.Service
             _mapper = mapper;
             _repository = new GenericRepository<Product>(context);
         }
+
+        public Task<bool> CheckOut(DTO.OrderDetail detail)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Product DisableSelfReference(Product entity)
         {
             //base.DisableSelfReference(entity);
