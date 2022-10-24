@@ -6,7 +6,7 @@ using Service.Services.IService;
 
 namespace FoodyAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/order")]
     [ApiController]
     public class OrderController : ControllerBase
     {
@@ -64,7 +64,7 @@ namespace FoodyAPI.Controllers
         }
 
         // POST api/<OrderController>
-        [HttpPost]
+        [HttpPost("checkout")]
         public async Task<IActionResult> CheckOut(Order order)
         {
             try

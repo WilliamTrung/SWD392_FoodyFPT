@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,9 +26,20 @@ namespace Service.Services.Service
             _repository = new GenericRepository<Product>(context);
         }
 
-        public Task<bool> CheckOut(DTO.OrderDetail detail)
+        public async Task<bool> CheckOut(DTO.OrderDetail detail)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            var find = await _repository.GetList(filter: p => p.Id == detail.ProductId);
+            var product = find.FirstOrDefault();
+            if(product != null)
+            {
+                //- quantity
+                product.Quantity -= detail.Quantity;
+                _repository.Update(product.Id, product);
+                await _repository.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         public override Product DisableSelfReference(Product entity)
