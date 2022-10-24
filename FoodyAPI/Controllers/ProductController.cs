@@ -44,7 +44,7 @@ namespace FoodyAPI.Controllers
             }
             foreach(var product in list)
             {
-                product.Picture = _productBlob.GetURL(product);
+                //product.Picture = _productBlob.GetURL(product);
             }
             var products = new ProductView(list);
             var json = JsonConvert.SerializeObject(products);
@@ -55,19 +55,19 @@ namespace FoodyAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var dto = await _productService.GetByIdAsync(id);
+            var dto = (await _productService.GetAsync(filter: p => p.Id == id)).FirstOrDefault();
             if(dto == null)
             {
                 return NotFound();
             }
-            dto.Picture = _productBlob.GetURL(dto);
+            dto.Picture = _productBlob.GetURLs(id);
             return Ok(dto);
         }
         // GET api/<ProductController>/name
         [HttpGet("name/{name}")]
-        public async Task<IActionResult> Get(string name)
+        public async Task<IActionResult> Get([FromQuery] PagingRequest paging, [FromQuery] string name)
         {
-            var list = await _productService.GetAsync(filter: p => p.Name.ToUpper().Contains(name.ToUpper()));
+            var list = await _productService.GetAsync(paging: paging, filter: p => p.Name.ToUpper().Contains(name.ToUpper()));
             if (list == null)
             {
                 return NotFound();
@@ -76,26 +76,8 @@ namespace FoodyAPI.Controllers
             var json = JsonConvert.SerializeObject(products);
             return Ok(json);
         }
-        // POST api/<ProductController>
-        [HttpPost("upload")]
-        public async Task<IActionResult> PostPicture(List<IFormFile> pictures, int productId)
-        {
-            foreach(var picture in pictures)
-            {
-                if (!picture.ContentType.Contains("image"))
-                {
-                    return BadRequest();
-                }
-            }
-            var check = await _productBlob.UploadAsync(pictures, productId);
-            if (!check)
-            {
-                return Ok(StatusCodes.Status500InternalServerError); 
-            }
-            return Ok(StatusCodes.Status200OK);
-        }
         [HttpPost]
-        public async Task<IActionResult> PostAsync(Product product)
+        public async Task<IActionResult> PostAsync(Product product, List<IFormFile> pictures)
         {
             try
             {
@@ -112,6 +94,8 @@ namespace FoodyAPI.Controllers
                 var create = await _productService.CreateAsync(product);
                 if (create != null)
                 {
+                    //upload pictures
+                    
                     return Ok(create);
                 }
                 else

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Routing;
 using System.Net;
 using NuGet.Protocol;
 using FoodyAPI.Helper.Azure;
+using FoodyAPI.Helper.Azure.IBlob;
 
 namespace FoodyAPI.Controllers
 {
@@ -12,52 +13,28 @@ namespace FoodyAPI.Controllers
     public class UploadController : Controller
     {
         IConfiguration _config;
-        public UploadController(IConfiguration configuration)
+        IProductBlob _productBlob;
+        public UploadController(IConfiguration configuration, IProductBlob productBlob)
         {
             _config = configuration;
+            _productBlob = productBlob;
         }
-        private async Task<IActionResult> Upload(IFormFile file)
+        [HttpPost("product")]
+        public async Task<IActionResult> Post(List<IFormFile> pictures, int productId)
         {
-            /*
-            //for testing
-            var blobStorage = _config.GetSection("BlobStorage");
-            var containerName = blobStorage["ContainerName"]; 
-            //var imgSrc = _config.GetSection("Images");
-            //var imgStorage = imgSrc["Storage"];
-
-            Stream myBlob =  file.OpenReadStream();
-            //set blob container
-            var blobContainer = AzureService.CheckBlobContainer(_config, containerName);
-            if(blobContainer == null)
+            foreach (var picture in pictures)
             {
-                return Ok(StatusCodes.Status404NotFound);
-            }
-            //set file
-            var blob = blobContainer.GetBlobClient(file.FileName);
-            //upload file
-            await blob.UploadAsync(myBlob);
-            return Ok(AzureService.GetBlobResourcePath(_config, containerName, file.FileName));
-            */
-            return BadRequest(StatusCodes.Status503ServiceUnavailable);
-        }
-        [HttpPost("upload")]
-        public async Task<IActionResult> Upload(List<IFormFile> files)
-        {
-            /*
-            if(files.Count == 0)
-            {
-                return BadRequest();
-            } else
-            {
-                string check = "";
-                foreach(var file in files)
+                if (!picture.ContentType.Contains("image"))
                 {
-                    check += await Upload(file);
+                    return BadRequest();
                 }
-                return Ok(check);
             }
-            */
-            return BadRequest(StatusCodes.Status503ServiceUnavailable);
+            var check = await _productBlob.UploadAsync(pictures, productId);
+            if (!check)
+            {
+                return Ok(StatusCodes.Status500InternalServerError);
+            }
+            return Ok(StatusCodes.Status200OK);
         }
     }
 }
