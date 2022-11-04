@@ -107,6 +107,11 @@ builder.Services.AddTransient<ILocationService, LocationService>();
 
 //anhtn 10-10-2022 add end
 
+//anhtn 4-11-2022 add start
+builder.Services.AddTransient<ISlotService, SlotService>();
+
+//anhtn 4-11-2022 add end
+
 //builder.Services.AddScoped<IProductService, ProductService>();
 var app = builder.Build();
 
