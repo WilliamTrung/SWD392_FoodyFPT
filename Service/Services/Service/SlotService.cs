@@ -39,6 +39,7 @@ namespace Service.Services.Service
             foreach (var item in list.Result)
             {
                 DisableSelfReference(_mapper.Map<Slot>(item));
+                /*
                 if(item.Menu != null)
                 {
                     var details_models = new List<DTO.MenuDetail>();
@@ -52,6 +53,7 @@ namespace Service.Services.Service
                         item.Menu.MenuDetails = details_models;
                     }
                 }
+                */
             }
             return list;
         }

@@ -13,7 +13,6 @@ using Service.Helper;
 
 namespace FoodyAPI.Controllers
 {
-    [Authorized("User,Administrator")]
     [Route("api/category")]
     [ApiController]
     public class CategoryController : ControllerBase
