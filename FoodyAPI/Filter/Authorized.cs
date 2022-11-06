@@ -9,7 +9,7 @@ namespace FoodyAPI.Filter
     public class Authorized : ActionFilterAttribute, IActionFilter
     {
         IUserService? _userService;
-        string? _roles = null;
+        string? _roles = "";
         public Authorized()
         {
 
