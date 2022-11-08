@@ -48,7 +48,7 @@ namespace FoodyAPI.Controllers
             }
             var products = new ProductView(list);
             var json = JsonConvert.SerializeObject(products);
-            return Ok(json);
+            return Ok(products);
         }
 
         // GET api/<ProductController>/5

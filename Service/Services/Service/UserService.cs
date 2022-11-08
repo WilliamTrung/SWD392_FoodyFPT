@@ -26,7 +26,7 @@ namespace Service.Services.Service
         //find user by email
         //if found -> return
         //if not found -> register auto -> return
-        public async Task<DTO.User> LoginAsync(DTO.User loginUser)
+        public async Task<DTO.User> LoginAsync(DTO.User loginUser, string? roleSet = null)
         {
             //throw new NotImplementedException();
             var find = await GetAsync(filter: u => u.Email == loginUser.Email);
@@ -36,7 +36,20 @@ namespace Service.Services.Service
                 //not in db
                 //set default value for new user
                 loginUser.Phone = "No data";
-                loginUser.RoleId = 2;
+                if(roleSet != null && roleSet != "Administrator")
+                {
+                    var roleFind = _context.Roles.Where(r => r.Name == roleSet).FirstOrDefault();
+                    if(roleFind != null)
+                    {
+                        loginUser.RoleId = roleFind.Id;
+                    } else
+                    {
+                        throw new Exception("Role not found!");
+                    }
+                } else
+                {
+                    loginUser.RoleId = 2;
+                }
                 found = await CreateAsync(loginUser);
             }
             var role =  _context.Roles.FirstOrDefault(r => r.Id == found.RoleId);

@@ -10,6 +10,6 @@ namespace Service.Services.IService
 {
     public interface IUserService : IBaseService<DTO.User, User>
     {
-        public Task<DTO.User> LoginAsync(DTO.User user);
+        public Task<DTO.User> LoginAsync(DTO.User user, string? roleSet = null);
     }
 }
