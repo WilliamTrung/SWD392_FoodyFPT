@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using Service.View;
 using FoodyAPI.Helper.Azure.IBlob;
 using FoodyAPI.Helper.Azure;
-using FoodyAPI.Helper.Azure.IBlob;
 using Service.Helper;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -44,7 +43,11 @@ namespace FoodyAPI.Controllers
             }
             foreach(var product in list)
             {
-                product.Picture = _productBlob.GetURL(product);
+                var t = _productBlob.GetURL(product);
+                if(t!= null)
+                {
+                    product.Picture =t.FirstOrDefault();
+                }
             }
             var products = new ProductView(list);
             var json = JsonConvert.SerializeObject(products);
@@ -60,7 +63,11 @@ namespace FoodyAPI.Controllers
             {
                 return NotFound();
             }
-            dto.Picture = _productBlob.GetURL(dto);
+            var t = _productBlob.GetURL(dto);
+            if (t != null)
+            {
+                dto.Picture = t.FirstOrDefault();
+            }
             return Ok(dto);
         }
         // GET api/<ProductController>/name
